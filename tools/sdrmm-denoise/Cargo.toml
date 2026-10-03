@@ -1,0 +1,17 @@
+[package]
+name = "sdrmm-denoise"
+version = "0.1.0"
+edition = "2024"
+license = "AGPL-3.0-or-later"
+publish = false
+description = "Runs the SDR-- (sdrmm) audio denoisers on raw f32 audio for the speech-over-radio benchmark"
+
+[dependencies]
+# Pinned so benchmark numbers always describe one exact build of the sdrmm DSP.
+sdrmm-dsp = { git = "https://github.com/Newspicel/sdrmm", rev = "e294b80d18af9cd2e3e9d7dbc41a7a1ffa8eea9d" }
+sdrmm-channels = { git = "https://github.com/Newspicel/sdrmm", rev = "e294b80d18af9cd2e3e9d7dbc41a7a1ffa8eea9d" }
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1

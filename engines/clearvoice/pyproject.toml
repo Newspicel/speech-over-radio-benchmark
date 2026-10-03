@@ -1,0 +1,9 @@
+[project]
+name = "sorb-engine-clearvoice"
+version = "0.1.0"
+requires-python = ">=3.12,<3.13"
+dependencies = ["clearvoice==0.1.2", "soundfile", "soxr"]
+
+[tool.uv]
+package = false
+

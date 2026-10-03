@@ -1,0 +1,648 @@
+# Real off-air recordings used by the benchmark (audio is downloaded, never redistributed).
+# Found and verified 2026-10-03. `start`/`duration` pick the excerpt; without `start` the
+# 45 s window with the most speech (while keeping some noise-only frames) is chosen by VAD.
+# IQ entries are demodulated by sorb/demod.py with every demodulator in `demods`.
+- id: hf-police-scanner-amherst-41622
+  url: https://huggingface.co/datasets/trentmkelly/police-scanner-audio/resolve/main/feed_41622/2024-08-15/41622-1723695054_0010-0040.mp3
+  page: https://huggingface.co/datasets/trentmkelly/police-scanner-audio
+  modulation: nfm
+  group: nfm
+  service: Public safety (Amherst/Tonawanda NY police & fire) scanner feed
+  description: 30-min scanner feed segment (squelched, mixed analog/digital-decoded audio as relayed by scanner feed). Dataset has 357 GB / 6 feeds.
+  license: CC BY 3.0 (as declared by HF uploader; source audio from Broadcastify feeds - provenance questionable)
+  format: mp3/mp3, 22050 Hz, 1 ch, ~16 kbps
+- id: ia-2m-repeater-w4iz-146700
+  url: https://archive.org/download/146.700-W4IZ/20230617-120927.mp3
+  page: https://archive.org/details/146.700-W4IZ
+  modulation: nfm
+  group: nfm
+  service: Amateur 2m repeater W4IZ 146.700 MHz (Jacksonville FL)
+  description: SDR recording of a repeater tech-talk net.
+  license: unspecified (archive.org upload, no license declared; hobbyist recording)
+  format: mp3/mp3, 44100 Hz, 2 ch, ~320 kbps
+- id: ia-2m-simplex-net-146780
+  url: https://archive.org/download/2-meter-simplex-check-in-net.-2026-04-16-t-17-33-21-z-146780.0k-hz/2%20meter%20simplex%20check-in%20net.%202026-04-16T17_33_21Z_146780.0kHz.flac
+  page: https://archive.org/details/2-meter-simplex-check-in-net.-2026-04-16-t-17-33-21-z-146780.0k-hz
+  modulation: nfm
+  group: nfm
+  service: Amateur 2m simplex check-in net (146.780 MHz, Utah)
+  description: '81-minute 2m simplex net: many stations, weak/noisy simplex signals with squelch.'
+  license: Public Domain Mark 1.0 (archive.org uploader declaration)
+  format: flac/flac, 8000 Hz, 1 ch, ~1 kbps
+- id: ia-2m-uk-net-145728
+  url: https://archive.org/download/2-meter-uk-net.-th.-2023-05-18-t-20-09-08-z-145728.7k-hz/2%20meter%20UK%20net.%20Th.%202023-05-18T20_09_08Z_145728.7kHz.flac
+  page: https://archive.org/details/2-meter-uk-net.-th.-2023-05-18-t-20-09-08-z-145728.7k-hz
+  modulation: nfm
+  group: nfm
+  service: Amateur 2m repeater net (UK, 145.7287 MHz) via Grimsby WebSDR
+  description: End of a UK 2m FM repeater net heard on a WebSDR; repeater squelch tails, varying signal strength.
+  license: Public Domain Mark 1.0 (archive.org uploader declaration)
+  format: flac/flac, 8000 Hz, 1 ch, ~9 kbps
+- id: ia-2m-utah-147200
+  url: https://archive.org/download/2-meters.-promentory-mtn.-ogden-utah.-sat.-2026-09-26-t-13-10-58-z-147260.0k-hz/2%20meter.%20Utah.%202026-09-25T13_53_04Z_147200.2kHz.flac
+  page: https://archive.org/details/2-meters.-promentory-mtn.-ogden-utah.-sat.-2026-09-26-t-13-10-58-z-147260.0k-hz
+  modulation: nfm
+  group: nfm
+  service: Amateur 2m repeater (147.200 MHz, Utah)
+  description: Second Utah 2m repeater recording in the same item.
+  license: Public Domain Mark 1.0 (archive.org uploader declaration)
+  format: flac/flac, 8000 Hz, 1 ch, ~4 kbps
+- id: ia-2m-utah-farnsworth-147120
+  url: https://archive.org/download/2-meter-utah.-farnsworth-peak.-slc.-wed.-2026-04-22-t-16-05-43-z-147120.0k-hz/2%20meter%20Utah.%20Farnsworth%20Peak.%20SLC.%20Wed.%202026-04-22T16_05_43Z_147120.0kHz.flac
+  page: https://archive.org/details/2-meter-utah.-farnsworth-peak.-slc.-wed.-2026-04-22-t-16-05-43-z-147120.0k-hz
+  modulation: nfm
+  group: nfm
+  service: Amateur 2m repeater (147.120 MHz, Salt Lake City) via sdrutah WebSDR
+  description: Repeater traffic/net on a wide-coverage 2m repeater; multiple speakers of varying quality.
+  license: Public Domain Mark 1.0 (archive.org uploader declaration)
+  format: flac/flac, 8000 Hz, 1 ch, ~3 kbps
+- id: ia-2m-utah-promontory-147260
+  url: https://archive.org/download/2-meters.-promentory-mtn.-ogden-utah.-sat.-2026-09-26-t-13-10-58-z-147260.0k-hz/2%20meters.%20Promentory%20Mtn.%20Ogden%2C%20Utah.%20Sat.%202026-09-26T13_10_58Z_147260.0kHz.flac
+  page: https://archive.org/details/2-meters.-promentory-mtn.-ogden-utah.-sat.-2026-09-26-t-13-10-58-z-147260.0k-hz
+  modulation: nfm
+  group: nfm
+  service: Amateur 2m repeater (147.260 MHz, Ogden UT)
+  description: Promontory Mountain 2m repeater QSOs via WebSDR.
+  license: Public Domain Mark 1.0 (archive.org uploader declaration)
+  format: flac/flac, 8000 Hz, 1 ch, ~4 kbps
+- id: ia-uhf-cb-ch4-repeater-nowra
+  url: https://archive.org/download/CBRadioChannel4RepeaterNowra30April20192/2019.04.30_23.03_01.WAV
+  page: https://archive.org/details/CBRadioChannel4RepeaterNowra30April20192
+  modulation: nfm
+  group: nfm
+  service: Australian UHF CB channel 4 repeater (~476.475 MHz), Nowra NSW
+  description: UHF CB repeater conversation, NFM with repeater tail.
+  license: unspecified (archive.org upload, no license declared; hobbyist recording)
+  format: wav/pcm_s16le, 44100 Hz, 2 ch
+- id: ia-uk-fm-cb-27780
+  url: https://archive.org/download/10-meter-uk.-unknown-operators.-sun.-2023-06-04-t-12-41-08-z-27780.8k-hz/10%20meter%20UK.%20Unknown%20operators.%20Sun.%202023-06-04T12_41_08Z_27780.8kHz.flac
+  page: https://archive.org/details/10-meter-uk.-unknown-operators.-sun.-2023-06-04-t-12-41-08-z-27780.8k-hz
+  modulation: nfm
+  group: nfm
+  service: UK 27/81 FM CB (27.7808 MHz)
+  description: Two operators on UK FM CB, both sides audible.
+  license: Public Domain Mark 1.0 (archive.org uploader declaration)
+  format: flac/flac, 8000 Hz, 1 ch, ~8 kbps
+- id: ia-uk-fm-cb-grimsby-27782
+  url: https://archive.org/download/grimsby-cb-radio.-uk.-w.-2025-07-02-t-08-53-01-z-27782.9k-hz/Grimsby%20CB%20radio.%20UK.%20W.%20%202025-07-02T08_53_01Z_27782.9kHz.flac
+  page: https://archive.org/details/grimsby-cb-radio.-uk.-w.-2025-07-02-t-08-53-01-z-27782.9k-hz
+  modulation: nfm
+  group: nfm
+  service: UK 27/81 FM CB (27.7829 MHz) via Grimsby WebSDR
+  description: 45 min of UK FM CB chatter, weak/strong stations.
+  license: Public Domain Mark 1.0 (archive.org uploader declaration)
+  format: flac/flac, 8000 Hz, 1 ch, ~2 kbps
+- id: sig-nfm-voice
+  url: https://www.sigidwiki.com/images/9/93/Nfm_voice.mp3
+  page: https://www.sigidwiki.com/wiki/NFM_Voice
+  modulation: nfm
+  group: nfm
+  service: NFM voice reference sample (sigidwiki)
+  description: Short NFM voice example from the Signal Identification Wiki.
+  license: unspecified (user-contributed sample on sigidwiki.com; no explicit license)
+  format: mp3/mp3, 16000 Hz, 2 ch, ~32 kbps
+- id: cm-alaska261-atc-wav
+  url: https://upload.wikimedia.org/wikipedia/commons/c/c5/Alaska_Airlines_Flight_261_crash_ATC_recording.wav
+  page: https://commons.wikimedia.org/wiki/File:Alaska_Airlines_Flight_261_crash_ATC_recording.wav
+  modulation: am
+  group: am
+  service: VHF airband ATC (LA Center, Alaska 261)
+  description: FAA ATC recording, WAV version.
+  license: Public domain (FAA / US Gov)
+  format: wav/pcm_f32le, 22050 Hz, 1 ch
+- id: cm-asiana214-ksfo
+  url: https://upload.wikimedia.org/wikipedia/commons/3/34/Asiana_214_crash_-_KSFO_Tower_ATC_recording.ogg
+  page: https://commons.wikimedia.org/wiki/File:Asiana_214_crash_-_KSFO_Tower_ATC_recording.ogg
+  modulation: am
+  group: am
+  service: VHF airband ATC (KSFO Tower)
+  description: Tower frequency recording around Asiana 214 accident.
+  license: Public domain (Wikimedia Commons)
+  format: ogg/vorbis, 44100 Hz, 2 ch, ~112 kbps
+- id: cm-atis-ctu
+  url: https://upload.wikimedia.org/wikipedia/commons/0/01/ATIS_of_CTU_on_2013-10-12.OGG
+  page: https://commons.wikimedia.org/wiki/File:ATIS_of_CTU_on_2013-10-12.OGG
+  modulation: am
+  group: am
+  service: VHF airband ATIS (Chengdu CTU)
+  description: ATIS recording, Chengdu.
+  license: Public domain (Wikimedia Commons)
+  format: ogg/vorbis, 22050 Hz, 2 ch, ~29 kbps
+- id: cm-atis-lfbo
+  url: https://upload.wikimedia.org/wikipedia/commons/2/28/LFBO_atis.ogg
+  page: https://commons.wikimedia.org/wiki/File:LFBO_atis.ogg
+  modulation: am
+  group: am
+  service: VHF airband ATIS (Toulouse LFBO)
+  description: Off-air ATIS recording.
+  license: CC BY 3.0
+  format: ogg/vorbis, 8000 Hz, 1 ch, ~28 kbps
+- id: cm-atis-paris-orly
+  url: https://upload.wikimedia.org/wikipedia/commons/b/b5/Atis_Paris-Orly.ogg
+  page: https://commons.wikimedia.org/wiki/File:Atis_Paris-Orly.ogg
+  modulation: am
+  group: am
+  service: VHF airband ATIS (Paris Orly)
+  description: Off-air ATIS recording.
+  license: CC BY-SA 3.0
+  format: ogg/vorbis, 44100 Hz, 1 ch, ~110 kbps
+- id: cm-atis-schiphol
+  url: https://upload.wikimedia.org/wikipedia/commons/8/87/ATIS_Schiphol.ogg
+  page: https://commons.wikimedia.org/wiki/File:ATIS_Schiphol.ogg
+  modulation: am
+  group: am
+  service: VHF airband ATIS (Amsterdam Schiphol)
+  description: Off-air ATIS broadcast recording.
+  license: Public domain (Wikimedia Commons)
+  format: ogg/vorbis, 44100 Hz, 1 ch, ~81 kbps
+- id: cm-flight1549-tracon
+  url: https://upload.wikimedia.org/wikipedia/commons/b/b5/Flight_1549_FAA_New_York_TRACON_audio_extract.ogg
+  page: https://commons.wikimedia.org/wiki/File:Flight_1549_FAA_New_York_TRACON_audio_extract.ogg
+  modulation: am
+  group: am
+  service: VHF airband ATC (FAA NY TRACON, US Airways 1549)
+  description: FAA-released ATC tape extract (pilot side received over VHF AM).
+  license: Public domain (FAA / US Gov)
+  format: ogg/vorbis, 44100 Hz, 1 ch, ~80 kbps
+- id: cm-lfmn-approach
+  url: https://upload.wikimedia.org/wikipedia/commons/3/33/LFMN-App2-Jul-04-2019-1030Z-_AudioTrimmer.com_.ogg
+  page: https://commons.wikimedia.org/wiki/File:LFMN-App2-Jul-04-2019-1030Z-_AudioTrimmer.com_.ogg
+  modulation: am
+  group: am
+  service: VHF airband approach control (Nice LFMN App2)
+  description: ~16 min of real approach-control pilot/controller exchanges (squelched).
+  license: CC BY-SA 4.0
+  format: ogg/vorbis, 22050 Hz, 1 ch, ~40 kbps
+- id: ia-40m-am-qso-7275
+  url: https://archive.org/download/40m-am-qso-on-supermarket-deli-talk.-sun.-2023-01-29-t-20-31-10-z-7275.0k-hz/40m%20AM%20QSO%20on%20supermarket%20deli%20talk.%20Sun.%202023-01-29T20_31_10Z_7275.0kHz.flac
+  page: https://archive.org/details/40m-am-qso-on-supermarket-deli-talk.-sun.-2023-01-29-t-20-31-10-z-7275.0k-hz
+  modulation: am
+  group: am
+  service: HF amateur 40m AM QSO (7.275 MHz)
+  description: Amateur AM-mode QSO on 40 m via WebSDR; fading/QRN.
+  license: Public Domain Mark 1.0 (archive.org uploader declaration)
+  format: flac/flac, 8000 Hz, 1 ch, ~6 kbps
+- id: ia-airband-gqrx-palangkaraya-122392
+  url: https://archive.org/download/gqrx_20160725_195833_122392700/gqrx_20160725_195833_122392700.flac
+  page: https://archive.org/details/gqrx_20160725_195833_122392700
+  modulation: am
+  group: am
+  service: VHF airband 122.3927 MHz (Palangkaraya, Indonesia) via gqrx
+  description: gqrx AM-demodulated airband recording, weak/noisy.
+  license: unspecified (archive.org upload, no license declared; hobbyist recording)
+  format: flac/flac, 48000 Hz, 2 ch, ~20 kbps
+- id: ia-cb-am-ch9-27025
+  url: https://archive.org/download/27025am/27025am.mp3
+  page: https://archive.org/details/27025am
+  modulation: am
+  group: am
+  service: CB 11m AM channel 9 (27.025 MHz)
+  description: Cross-country CB ch.9 AM skip 'flame wars' (49 min).
+  license: unspecified (archive.org upload, no license declared; hobbyist recording)
+  format: mp3/mp3, 44100 Hz, 1 ch, ~320 kbps
+- id: ia-cb-am-eastcoast-27255
+  url: https://archive.org/download/east-coast-cb.-channels-6-9-23-40.-m.-2025-06-16-t-12-05-19-z-27255.0k-hz/East%20Coast%20CB.%20Channels%206%2C9%2C%2023%2C%2040.%20M.%202025-06-16T12_05_19Z_27255.0kHz.flac
+  page: https://archive.org/details/east-coast-cb.-channels-6-9-23-40.-m.-2025-06-16-t-12-05-19-z-27255.0k-hz
+  modulation: am
+  group: am
+  service: CB 11m AM (US channels 6/9/23/40)
+  description: US CB AM with splatter, power mics, linear amps.
+  license: Public Domain Mark 1.0 (archive.org uploader declaration)
+  format: flac/flac, 8000 Hz, 1 ch, ~2 kbps
+- id: ia-cb-am-tacoma-ch17
+  url: https://archive.org/download/cb-radio-channel-17-recording-tacoma-washington/45%20Kilo%20Channel%20most%20popular%20live%20stream.mp3
+  page: https://archive.org/details/cb-radio-channel-17-recording-tacoma-washington
+  modulation: am
+  group: am
+  service: CB 11m AM channel 17 (Tacoma WA)
+  description: ~46 min of CB channel 17 recordings.
+  license: unspecified (archive.org upload, no license declared; hobbyist recording)
+  format: mp3/mp3, 44100 Hz, 2 ch, ~59 kbps
+- id: ia-cb-poland-kalisz
+  url: https://archive.org/download/040815CbRadio/040815_cb%20radio.mp3
+  page: https://archive.org/details/040815CbRadio
+  modulation: am
+  group: am
+  service: CB 11m AM (Poland, truck drivers, Kalisz)
+  description: CB conversations recorded inside a truck cab (ethnographic recording; acoustic pickup of CB speaker).
+  license: CC BY-SA 3.0
+  format: mp3/mp3, 44100 Hz, 2 ch, ~192 kbps
+- id: ia-cyyz-af358-atc
+  url: https://archive.org/download/af358atc/CYYZ-Toronto-Aug-02-05-1530.mp3
+  page: https://archive.org/details/af358atc
+  modulation: am
+  group: am
+  service: VHF airband ATC (Toronto CYYZ, AF358 2005)
+  description: 30-min tower/approach recording (originally LiveATC capture).
+  license: Public Domain Mark (uploader declaration; LiveATC-derived - check LiveATC terms)
+  format: mp3/mp3, 11025 Hz, 1 ch, ~16 kbps
+- id: ia-hf-am-volmet-ny-gander-1975
+  url: https://archive.org/download/sraa-ny-and-gander-newfoundland-volmet-aero-weather/5652-NY-Volmet-Gander-Volmet-Sept-1975.mp3
+  page: https://archive.org/details/sraa-ny-and-gander-newfoundland-volmet-aero-weather
+  modulation: am
+  group: am
+  service: HF aeronautical VOLMET (New York / Gander), AM era 1975
+  description: 1975 AM VOLMET broadcasts received at distance (SRAA).
+  license: CC BY-NC 3.0 (Shortwave Radio Audio Archive)
+  format: mp3/mp3, 44100 Hz, 2 ch, ~172 kbps
+- id: ia-sw-rnz-pacific-7440
+  url: https://archive.org/download/radio-new-zealand-pacific.-m.-2025-06-16-t-15-08-00-z-7440.0k-hz/Radio%20New%20Zealand%20Pacific.%20M.%202025-06-16T15_08_00Z_7440.0kHz.flac
+  page: https://archive.org/details/radio-new-zealand-pacific.-m.-2025-06-16-t-15-08-00-z-7440.0k-hz
+  modulation: am
+  group: am
+  service: Shortwave broadcast (RNZ Pacific 7.440 MHz) via NA5B WebSDR
+  description: Long-haul shortwave AM broadcast speech with fading.
+  license: Public Domain Mark 1.0 (archive.org uploader declaration)
+  format: flac/flac, 16000 Hz, 1 ch, ~3 kbps
+- id: ia-sw-voice-of-turkey-13635
+  url: https://archive.org/download/voice-of-turkey-13.635-mhz-02-august-2021-1004-utc.mp-3/VoiceOfTurkey-13.635MHz-02August2021-1004UTC.mp3.mp3
+  page: https://archive.org/details/voice-of-turkey-13.635-mhz-02-august-2021-1004-utc.mp-3
+  modulation: am
+  group: am
+  service: Shortwave broadcast (Voice of Turkey 13.635 MHz), portable receiver in Dublin
+  description: Shortwave AM broadcast recorded on a Tecsun PL-660.
+  license: Public Domain Mark 1.0 (archive.org uploader declaration)
+  format: mp3/mp3, 32000 Hz, 2 ch, ~128 kbps
+- id: ia-sw-vok-15180-kiwi
+  url: https://archive.org/download/jp7fso.proxy.kiwisdr.com_2019-06-19T03_08_35Z_15180.00_am/jp7fso.proxy.kiwisdr.com_2019-06-19T03_08_35Z_15180.00_am.wav
+  page: https://archive.org/details/jp7fso.proxy.kiwisdr.com_2019-06-19T03_08_35Z_15180.00_am
+  modulation: am
+  group: am
+  service: Shortwave broadcast (Voice of Korea 15.180 MHz) via KiwiSDR
+  description: KiwiSDR AM recording (12 kHz WAV) of a SW news bulletin.
+  license: unspecified (archive.org upload, no license declared; hobbyist recording)
+  format: wav/pcm_s16le, 12000 Hz, 1 ch
+- id: sig-airband-135900-sdrsharp
+  url: https://www.sigidwiki.com/images/9/9f/SDRSharp_20150804_225641Z_135900kHz_AF.mp3
+  page: https://www.sigidwiki.com/wiki/Amplitude_Modulation_(AM)
+  modulation: am
+  group: am
+  service: VHF airband 135.900 MHz (SDR# AF recording)
+  description: Airband AM voice sample.
+  license: unspecified (user-contributed sample on sigidwiki.com; no explicit license)
+  format: mp3/mp3, 32000 Hz, 1 ch, ~46 kbps
+- id: sig-am-chu-7335
+  url: https://www.sigidwiki.com/images/0/0c/Websdr_recording_2015-10-11T01-26-53Z_7335.1kHz.mp3
+  page: https://www.sigidwiki.com/wiki/Amplitude_Modulation_(AM)
+  modulation: am
+  group: am
+  service: HF AM 7.335 MHz (CHU Canada time station voice) via WebSDR
+  description: AM voice time announcements on HF.
+  license: unspecified (user-contributed sample on sigidwiki.com; no explicit license)
+  format: mp3/mp3, 8000 Hz, 1 ch, ~46 kbps
+- id: sig-am-lw-198
+  url: https://www.sigidwiki.com/images/d/d3/AM_Modulatio_2015-06-27T16-57-35Z_198.0kHz.mp3
+  page: https://www.sigidwiki.com/wiki/Amplitude_Modulation_(AM)
+  modulation: am
+  group: am
+  service: LW broadcast 198 kHz (BBC Radio 4 LW) via WebSDR
+  description: Long-wave AM broadcast speech sample.
+  license: unspecified (user-contributed sample on sigidwiki.com; no explicit license)
+  format: mp3/mp3, 8000 Hz, 1 ch, ~34 kbps
+- id: cm-ao7-ssb
+  url: https://upload.wikimedia.org/wikipedia/commons/5/57/AO-7_SSB.ogg
+  page: https://commons.wikimedia.org/wiki/File:AO-7_SSB.ogg
+  modulation: usb
+  group: ssb
+  service: AO-7 amateur LEO satellite linear transponder
+  description: SSB voice via AO-7 with Doppler/fading.
+  license: CC BY-SA 3.0
+  format: ogg/vorbis, 44100 Hz, 1 ch, ~128 kbps
+- id: cm-gander-volmet
+  url: https://upload.wikimedia.org/wikipedia/commons/5/5e/Gander_Volmet_Canada.oga
+  page: https://commons.wikimedia.org/wiki/File:Gander_Volmet_Canada.oga
+  modulation: usb
+  group: ssb
+  service: HF aeronautical VOLMET (Gander)
+  description: Gander VOLMET recording.
+  license: CC BY-SA 4.0
+  format: ogg/vorbis, 12000 Hz, 1 ch, ~29 kbps
+- id: cm-kiwi-4625-usb
+  url: https://upload.wikimedia.org/wikipedia/commons/4/41/Kiwisdr.oh6ai.fi_2024-01-18T11_28_17Z_4625.00_usb.wav
+  page: https://commons.wikimedia.org/wiki/File:Kiwisdr.oh6ai.fi_2024-01-18T11_28_17Z_4625.00_usb.wav
+  modulation: usb
+  group: ssb
+  service: HF 4.625 MHz (UVB-76 'Buzzer' voice message) via KiwiSDR
+  description: USB recording incl. voice message over buzzer tones.
+  license: CC BY-SA 4.0
+  format: wav/pcm_s16le, 12000 Hz, 1 ch
+- id: cm-qo100-ssb-10489701
+  url: https://upload.wikimedia.org/wikipedia/commons/3/3e/Recording_2021-07-09_1032-UTC_10489701-kHz.wav
+  page: https://commons.wikimedia.org/wiki/File:Recording_2021-07-09_1032-UTC_10489701-kHz.wav
+  modulation: usb
+  group: ssb
+  service: QO-100 geostationary amateur satellite narrowband transponder (10489.701 MHz)
+  description: Satellite SSB voice downlink.
+  license: CC0 1.0
+  format: wav/pcm_s16le, 8000 Hz, 1 ch
+- id: cm-volmet-paris
+  url: https://upload.wikimedia.org/wikipedia/commons/7/71/Volmet_Paris_radio.oga
+  page: https://commons.wikimedia.org/wiki/File:Volmet_Paris_radio.oga
+  modulation: usb
+  group: ssb
+  service: HF aeronautical VOLMET (Paris)
+  description: Paris VOLMET HF recording.
+  license: CC BY-SA 3.0
+  format: ogg/vorbis, 44100 Hz, 1 ch, ~160 kbps
+- id: cm-websdr-20m-14284
+  url: https://upload.wikimedia.org/wikipedia/commons/3/32/Websdr_recording_2014-04-29T06_08_16Z_14284.9kHz.wav
+  page: https://commons.wikimedia.org/wiki/File:Websdr_recording_2014-04-29T06_08_16Z_14284.9kHz.wav
+  modulation: usb
+  group: ssb
+  service: HF amateur 20m USB (14.2849 MHz) via WebSDR
+  description: 20 m SSB phone recording.
+  license: CC BY-SA 3.0
+  format: wav/pcm_s16le, 7119 Hz, 1 ch
+- id: ia-160m-lsb-grimsby-1856
+  url: https://archive.org/download/three-british-hams-in-ssb-qso-grimsby-area.-2024-05-30-t-20-33-17-z-1856.8k-hz/Three%20British%20hams%20in%20SSB%20QSO%2C%20Grimsby%20area.%202024-05-30T20_33_17Z_1856.8kHz.flac
+  page: https://archive.org/details/three-british-hams-in-ssb-qso-grimsby-area.-2024-05-30-t-20-33-17-z-1856.8k-hz
+  modulation: lsb
+  group: ssb
+  service: HF amateur 160m LSB local QSO (UK)
+  description: 64-min three-way 160 m LSB ragchew via Grimsby WebSDR.
+  license: Public Domain Mark 1.0 (archive.org uploader declaration)
+  format: flac/flac, 8000 Hz, 1 ch, ~1 kbps
+- id: ia-160m-lsb-utah-1875
+  url: https://archive.org/download/160m.-lsb.-utah.-fri.-2026-08-07-t-11-48-20-z-1875.0k-hz/160m.%20LSB.%20Utah.%20Fri.%202026-08-07T11_48_20Z_1875.0kHz.flac
+  page: https://archive.org/details/160m.-lsb.-utah.-fri.-2026-08-07-t-11-48-20-z-1875.0k-hz
+  modulation: lsb
+  group: ssb
+  service: HF amateur 160m LSB (Utah)
+  description: 160 m LSB ragchew.
+  license: Public Domain Mark 1.0 (archive.org uploader declaration)
+  format: flac/flac, 8000 Hz, 1 ch, ~3 kbps
+- id: ia-40m-lsb-qso-7195
+  url: https://archive.org/download/40-meter-lsb-qso.-tues.-na-5-b.-2026-08-25-t-09-26-49-z-7195.0k-hz/40%20meter%20LSB%20QSO.%20Tues.%20NA5B.%202026-08-25T09_26_49Z_7195.0kHz.flac
+  page: https://archive.org/details/40-meter-lsb-qso.-tues.-na-5-b.-2026-08-25-t-09-26-49-z-7195.0k-hz
+  modulation: lsb
+  group: ssb
+  service: HF amateur 40m LSB (7.195 MHz) via NA5B WebSDR
+  description: Night-time 40 m LSB, one side audible, QRN/fading.
+  license: Public Domain Mark 1.0 (archive.org uploader declaration)
+  format: flac/flac, 16000 Hz, 1 ch, ~8 kbps
+- id: ia-auckland-volmet-8828
+  url: https://archive.org/download/zkak-auckland-volmet-08122024-0650-utc-8828-khz/ZKAK%20AUCKLAND%20VOLMET%2008122024%200650%20UTC%208828%20KHZ.mp3
+  page: https://archive.org/details/zkak-auckland-volmet-08122024-0650-utc-8828-khz
+  modulation: usb
+  group: ssb
+  service: HF aeronautical VOLMET (Auckland 8.828 MHz)
+  description: 90-s VOLMET clip.
+  license: unspecified (archive.org upload, no license declared; hobbyist recording)
+  format: mp3/mp3, 44100 Hz, 1 ch, ~64 kbps
+- id: ia-cb-lsb-27385
+  url: https://archive.org/download/173.48.189.54-2024-01-24-t-21-12-50-z-27385.00-lsb/173.48.189.54_2024-01-24T21_12_50Z_27385.00_lsb.flac
+  page: https://archive.org/details/173.48.189.54-2024-01-24-t-21-12-50-z-27385.00-lsb
+  modulation: lsb
+  group: ssb
+  service: CB 11m LSB channel 38 (27.385 MHz) via KiwiSDR
+  description: CB SSB activity incl. soundboard trolling (some non-live speech).
+  license: unspecified (archive.org upload, no license declared; hobbyist recording)
+  format: flac/flac, 12000 Hz, 1 ch, ~18 kbps
+- id: ia-cfb-trenton-6754
+  url: https://archive.org/download/cfb-trenton-weather-usb-station.-sat.-2025-11-02-t-02-39-02-z-6754.0k-hz/CFB%20Trenton%20weather%20USB%20station.%20Sat.%202025-11-02T02_39_02Z_6754.0kHz.flac
+  page: https://archive.org/details/cfb-trenton-weather-usb-station.-sat.-2025-11-02-t-02-39-02-z-6754.0k-hz
+  modulation: usb
+  group: ssb
+  service: HF military aero weather (CFB Trenton 6.754 MHz USB)
+  description: Live operator reading weather (human speech, not TTS).
+  license: Public Domain Mark 1.0 (archive.org uploader declaration)
+  format: flac/flac, 8000 Hz, 1 ch, ~3 kbps
+- id: ia-gander-ny-volmet-3485
+  url: https://archive.org/download/GanderRadioAndNewYorkRadio3.485MHz17May20140450UTC/GanderRadioAndNewYorkRadio-3.485MHz-17May2014-0450UTC.ogg
+  page: https://archive.org/details/GanderRadioAndNewYorkRadio3.485MHz17May20140450UTC
+  modulation: usb
+  group: ssb
+  service: HF aeronautical VOLMET (Gander / New York 3.485 MHz USB)
+  description: 31-min night-time VOLMET reception in Toronto (QRN, fading).
+  license: CC0 1.0
+  format: ogg/vorbis, 44100 Hz, 2 ch, ~96 kbps
+- id: ia-ham-lsb-ea3bem-7097
+  url: https://archive.org/download/HamRadioRecordings1/2006.02.24.EA3BEM.7097.khz.lsb.521.pm.est.mp3
+  page: https://archive.org/details/HamRadioRecordings1
+  modulation: lsb
+  group: ssb
+  service: HF amateur 40m LSB DX (EA3BEM heard in Ontario)
+  description: 10-min 40m LSB DX contact, fading/QRM.
+  license: unspecified (archive.org upload, no license declared; hobbyist recording)
+  format: mp3/mp3, 44100 Hz, 2 ch, ~128 kbps
+- id: ia-ham-lsb-g3ppg-3795
+  url: https://archive.org/download/HamRadioRecordings1/2006.02.24.G3PPG.3795.khz.lsb.707.pm.est.mp3
+  page: https://archive.org/details/HamRadioRecordings1
+  modulation: lsb
+  group: ssb
+  service: HF amateur 80m LSB transatlantic (G3PPG)
+  description: 80m LSB DX with noise and fading.
+  license: unspecified (archive.org upload, no license declared; hobbyist recording)
+  format: mp3/mp3, 44100 Hz, 2 ch, ~128 kbps
+- id: ia-ham-usb-hr2dmr-21285
+  url: https://archive.org/download/HamRadioRecordings1/2006.02.25.HR2DMR.21285.khz.usb.1016.am.est.mp3
+  page: https://archive.org/details/HamRadioRecordings1
+  modulation: usb
+  group: ssb
+  service: HF amateur 15m USB DX (HR2DMR Honduras)
+  description: 15m USB DX QSO received in Canada.
+  license: unspecified (archive.org upload, no license declared; hobbyist recording)
+  format: mp3/mp3, 44100 Hz, 2 ch, ~128 kbps
+- id: ia-kiwi-lsb-3815-cc0
+  url: https://archive.org/download/kiwisdr.radiorescate.com_2025-11-27T14_04_59Z_14260.000_usb/azwhtmtns.proxy.kiwisdr.com_2025-11-27T14_52_46Z_3815.00_lsb.wav
+  page: https://archive.org/details/kiwisdr.radiorescate.com_2025-11-27T14_04_59Z_14260.000_usb
+  modulation: lsb
+  group: ssb
+  service: HF amateur 80m LSB (3.815 MHz) via KiwiSDR (Arizona)
+  description: 80 m LSB phone, KiwiSDR 12 kHz WAV.
+  license: CC0 1.0
+  format: wav/pcm_s16le, 12000 Hz, 1 ch
+- id: ia-kiwi-lsb-7100-cc0
+  url: https://archive.org/download/kiwisdr.radiorescate.com_2025-11-27T14_04_59Z_14260.000_usb/kphsdr.com_2025-11-27T14_42_08Z_7100.000_lsb.wav
+  page: https://archive.org/details/kiwisdr.radiorescate.com_2025-11-27T14_04_59Z_14260.000_usb
+  modulation: lsb
+  group: ssb
+  service: HF amateur 40m LSB (7.100 MHz) via kphsdr KiwiSDR
+  description: 40 m LSB phone.
+  license: CC0 1.0
+  format: wav/pcm_s16le, 12000 Hz, 1 ch
+- id: ia-kiwi-lsb-7245-cc0
+  url: https://archive.org/download/kiwisdr.radiorescate.com_2025-11-27T14_04_59Z_14260.000_usb/kiwisdr.radiorescate.com_2025-11-27T13_53_54Z_7245.000_lsb.wav
+  page: https://archive.org/details/kiwisdr.radiorescate.com_2025-11-27T14_04_59Z_14260.000_usb
+  modulation: lsb
+  group: ssb
+  service: HF amateur 40m LSB (7.245 MHz) via KiwiSDR
+  description: 40 m LSB phone.
+  license: CC0 1.0
+  format: wav/pcm_s16le, 12000 Hz, 1 ch
+- id: ia-kiwi-usb-14260-cc0
+  url: https://archive.org/download/kiwisdr.radiorescate.com_2025-11-27T14_04_59Z_14260.000_usb/kiwisdr.radiorescate.com_2025-11-27T14_04_59Z_14260.000_usb.wav
+  page: https://archive.org/details/kiwisdr.radiorescate.com_2025-11-27T14_04_59Z_14260.000_usb
+  modulation: usb
+  group: ssb
+  service: HF amateur 20m USB (14.260 MHz) via KiwiSDR
+  description: KiwiSDR USB recording of 20 m phone activity.
+  license: CC0 1.0
+  format: wav/pcm_s16le, 12000 Hz, 1 ch
+- id: ia-kiwi-usb-14270-cc0
+  url: https://archive.org/download/kiwisdr.radiorescate.com_2025-11-27T14_04_59Z_14260.000_usb/kiwisdr.radiorescate.com_2025-11-27T14_12_56Z_14270.000_usb.wav
+  page: https://archive.org/details/kiwisdr.radiorescate.com_2025-11-27T14_04_59Z_14260.000_usb
+  modulation: usb
+  group: ssb
+  service: HF amateur 20m USB (14.270 MHz) via KiwiSDR
+  description: 20 m USB phone, 5 min.
+  license: CC0 1.0
+  format: wav/pcm_s16le, 12000 Hz, 1 ch
+- id: ia-maritime-usb-4224
+  url: https://archive.org/download/kiwi.psokiwi.net_2024-07-17T07_02_47Z_4224.00_usb/kiwi.psokiwi.net_2024-07-17T07_02_47Z_4224.00_usb.flac
+  page: https://archive.org/details/kiwi.psokiwi.net_2024-07-17T07_02_47Z_4224.00_usb
+  modulation: usb
+  group: ssb
+  service: HF maritime 4.224 MHz USB via KiwiSDR
+  description: Maritime HF channel with an operator leaving the mic keyed (cabin speech over HF).
+  license: unspecified (archive.org upload, no license declared; hobbyist recording)
+  format: flac/flac, 12000 Hz, 1 ch, ~2 kbps
+- id: ia-mf-maritime-2182-arkhangelsk
+  url: https://archive.org/download/HDSDR20171027210728Z2182kHzAF/HDSDR_20171027_210728Z_2182kHz_AF.wav
+  page: https://archive.org/details/HDSDR20171027210728Z2182kHzAF
+  modulation: usb
+  group: ssb
+  service: MF maritime distress/calling 2182 kHz (Arkhangelsk Radio)
+  description: Coast station all-ships warning on 2182 kHz.
+  license: unspecified (archive.org upload, no license declared; hobbyist recording)
+  format: wav/pcm_s16le, 12000 Hz, 1 ch
+- id: ia-shannon-volmet-13264
+  url: https://archive.org/download/shannon-volmet-20220215-1942utc-13264usb/ShannonVOLMET_20220215_1942utc_13264usb.wav
+  page: https://archive.org/details/shannon-volmet-20220215-1942utc-13264usb
+  modulation: usb
+  group: ssb
+  service: HF aeronautical VOLMET (Shannon 13.264 MHz USB)
+  description: Short Shannon VOLMET USB sample (WAV).
+  license: unspecified (archive.org upload, no license declared; hobbyist recording)
+  format: wav/pcm_s16le, 48000 Hz, 1 ch
+- id: ia-shanwick-5501
+  url: https://archive.org/download/shanwick-radio-5.501-mhz-05-august-2021-0935-utc.mp-3/ShanwickRadio-5.501MHz-05August2021-0935UTC.mp3.mp3
+  page: https://archive.org/details/shanwick-radio-5.501-mhz-05-august-2021-0935-utc.mp-3
+  modulation: usb
+  group: ssb
+  service: HF aeronautical (Shanwick Radio 5.505/5.501 MHz VOLMET/SIGMET)
+  description: 15-min Shanwick HF USB broadcast, portable receiver in Ireland.
+  license: Public Domain Mark 1.0 (archive.org uploader declaration)
+  format: mp3/mp3, 32000 Hz, 2 ch, ~128 kbps
+- id: ia-uscg-nmc-hf
+  url: https://archive.org/download/sraa-radio-anc-summer-of-2003/Station%20AMC.MP3
+  page: https://archive.org/details/sraa-radio-anc-summer-of-2003
+  modulation: usb
+  group: ssb
+  service: HF maritime USCG radio station (NMC/AMC), 2003
+  description: US Coast Guard HF voice broadcasts/traffic (SRAA).
+  license: CC BY-NC 3.0 (Shortwave Radio Audio Archive)
+  format: mp3/mp3, 44100 Hz, 2 ch, ~128 kbps
+- id: ia-volmet-gander-ny-13270
+  url: https://archive.org/download/volmet-gander.-ny.-2023-03-26-t-14-03-31-z-13270.0k-hz/VOLMET%20-%20Gander.%20NY.%202023-03-26T14_03_31Z_13270.0kHz.flac
+  page: https://archive.org/details/volmet-gander.-ny.-2023-03-26-t-14-03-31-z-13270.0k-hz
+  modulation: usb
+  group: ssb
+  service: HF aeronautical VOLMET (Gander/NY 13.270 MHz USB) via NA5B WebSDR
+  description: 12-min VOLMET.
+  license: Public Domain Mark 1.0 (archive.org uploader declaration)
+  format: flac/flac, 8000 Hz, 1 ch, ~7 kbps
+- id: sig-usb-sound
+  url: https://www.sigidwiki.com/images/7/77/USB_Sound.mp3
+  page: https://www.sigidwiki.com/wiki/Single_Sideband_Voice
+  modulation: usb
+  group: ssb
+  service: HF USB voice reference sample
+  description: Upper-sideband voice example.
+  license: unspecified (user-contributed sample on sigidwiki.com; no explicit license)
+  format: mp3/mp3, 44100 Hz, 2 ch, ~48 kbps
+- id: zenodo-hf-ssb-rus-example1
+  url: https://zenodo.org/api/records/7977073/files/hf_recording_rus_example_1.wav/content
+  page: https://zenodo.org/records/7977073
+  modulation: ssb
+  group: ssb
+  service: HF amateur SSB (Russian-language QSO)
+  description: 10-s real HF SSB segment from a language-ID dataset.
+  license: CC BY 4.0
+  format: wav/pcm_s16le, 16000 Hz, 1 ch
+- id: zenodo-hf-ssb-rus-example2
+  url: https://zenodo.org/api/records/7977073/files/hf_recording_rus_example_2.wav/content
+  page: https://zenodo.org/records/7977073
+  modulation: ssb
+  group: ssb
+  service: HF amateur SSB (Russian-language QSO)
+  description: Second 10-s real HF SSB segment.
+  license: CC BY 4.0
+  format: wav/pcm_s16le, 16000 Hz, 1 ch
+- id: codec2-vk2tpm-700d
+  url: https://raw.githubusercontent.com/drowe67/codec2/main/wav/vk2tpm_004.wav
+  page: https://github.com/drowe67/codec2/tree/main/wav
+  modulation: freedv
+  group: digital
+  service: HF FreeDV 700D modem audio from VK2TPM (used as off-air OFDM test vector in codec2)
+  description: 8 kHz modem audio; demodulate with ofdm_demod / freedv_rx 700D.
+  license: LGPL-2.1 (codec2 repository)
+  format: wav/pcm_s16le, 8000 Hz, 1 ch
+- id: sig-dmr-decoded
+  url: https://www.sigidwiki.com/images/2/29/Decoded_DMR_voice.mp3
+  page: https://www.sigidwiki.com/wiki/Digital_Mobile_Radio_(DMR)
+  modulation: dmr
+  group: digital
+  service: DMR (decoded AMBE voice)
+  description: Decoded DMR voice output (codec-domain artefacts, not RF baseband).
+  license: unspecified (user-contributed sample on sigidwiki.com; no explicit license)
+  format: mp3/mp3, 48000 Hz, 1 ch, ~59 kbps
+- id: sig-freedv-1600-decoded
+  url: https://www.sigidwiki.com/images/5/5e/1600_audio_orwell.mp3
+  page: https://www.sigidwiki.com/wiki/Frequency_Division_Multiplex_Digital_Voice_(FDMDV)
+  modulation: freedv
+  group: digital
+  service: FreeDV 1600 decoded speech
+  description: Decoded Codec2 speech (sample text from Orwell).
+  license: unspecified (user-contributed sample on sigidwiki.com; no explicit license)
+  format: mp3/mp3, 44100 Hz, 1 ch, ~205 kbps
+- id: sig-freedv-700d-wav
+  url: https://www.sigidwiki.com/images/d/de/700D.wav
+  page: https://www.sigidwiki.com/wiki/FreeDV_COHPSK
+  modulation: freedv
+  group: digital
+  service: HF FreeDV 700D modem audio (SSB receiver output)
+  description: FreeDV 700D signal as heard in SSB receiver; decode with freedv_rx to get speech.
+  license: unspecified (user-contributed sample on sigidwiki.com; no explicit license)
+  format: wav/pcm_s16le, 44100 Hz, 1 ch
+# ---- IQ: W3OA 40 m wideband (QS1R, 192 kS/s, centre 7086.101 kHz), 2017-08-21 14:05 UTC.
+# Suppressed carriers located from the LSB spectral edge; speech confirmed by VAD.
+- id: iq-w3oa-40m-7180
+  url: https://zenodo.org/api/records/846881/files/W3OA_wideband_6995_7177kHz_20170821_140000UT.wav/content
+  page: https://zenodo.org/records/846881
+  modulation: lsb
+  kind: iq
+  group: iq
+  source_file: w3oa-40m-300s
+  slice: [300, 60]
+  offset_hz: 94170
+  demods: [lsb]
+  service: HF amateur 40 m LSB phone (7.180 MHz), wideband IQ recording
+  description: 40 m LSB QSO demodulated from a 192 kS/s QS1R IQ recording by sorb/demod.py
+  license: CC BY 4.0
+- id: iq-w3oa-40m-7153
+  url: https://zenodo.org/api/records/846881/files/W3OA_wideband_6995_7177kHz_20170821_140000UT.wav/content
+  page: https://zenodo.org/records/846881
+  modulation: lsb
+  kind: iq
+  group: iq
+  source_file: w3oa-40m-300s
+  slice: [300, 60]
+  offset_hz: 66800
+  demods: [lsb]
+  service: HF amateur 40 m LSB phone (7.153 MHz), wideband IQ recording
+  description: 40 m LSB QSO demodulated from a 192 kS/s QS1R IQ recording by sorb/demod.py
+  license: CC BY 4.0
+- id: iq-w3oa-40m-7143
+  url: https://zenodo.org/api/records/846881/files/W3OA_wideband_6995_7177kHz_20170821_140000UT.wav/content
+  page: https://zenodo.org/records/846881
+  modulation: lsb
+  kind: iq
+  group: iq
+  source_file: w3oa-40m-300s
+  slice: [300, 60]
+  offset_hz: 57300
+  demods: [lsb]
+  service: HF amateur 40 m LSB phone (7.143 MHz), wideband IQ recording
+  description: 40 m LSB QSO demodulated from a 192 kS/s QS1R IQ recording by sorb/demod.py
+  license: CC BY 4.0

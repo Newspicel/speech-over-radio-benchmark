@@ -1,0 +1,9 @@
+/data/
+/models/
+/target/
+tools/*/target/
+engines/*/.venv/
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
