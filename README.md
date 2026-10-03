@@ -23,7 +23,7 @@ This repository measures that, end to end, on two test sets:
     the receiver 300 Hz off.
 
 70 methods, 17 of them combined chains. Last run: **2026-10-03** on arm64 / Darwin 27.0.0
-(Apple Silicon, 16 cores, 48 GB), code at commit `uncommitted`.
+(Apple Silicon, 16 cores, 48 GB), code at commit `ad3cba8`.
 
 > **The README is generated.** `uv run sorb all` re-runs everything that is not cached
 > and rewrites this file from `results/*.csv`; `uv run sorb report` only rewrites it.
