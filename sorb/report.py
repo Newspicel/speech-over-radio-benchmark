@@ -351,6 +351,20 @@ def section_conditions(syn: pd.DataFrame, methods: pd.DataFrame, metric: str) ->
     return matrix.loc[[m for m in methods.method if m in matrix.index], conds]
 
 
+def section_versus(syn_s: pd.DataFrame, real_s: pd.DataFrame | None, names: list[str]) -> str:
+    rows = []
+    for name in names:
+        if name not in syn_s.index:
+            continue
+        r = syn_s.loc[name]
+        q = real_s.loc[name] if real_s is not None and name in real_s.index else None
+        rows.append([link(name), f(r.get("wer"), 1), f(r.pesq_nb), f(r.estoi, 3), f(r.dnsmos_ovr),
+                     f(q.noise_db_med, 1) if q is not None else "—", f(q.speech_db_med, 2) if q is not None else "—",
+                     f(q.snr_gain_db_med, 1, True) if q is not None else "—"])
+    return table(["method", "synthetic WER %", "PESQ-NB", "ESTOI", "DNSMOS OVRL", "real noise Δ dB",
+                  "real speech Δ dB", "real SNR gain dB"], rows)
+
+
 def section_chains(syn_s: pd.DataFrame, real_s: pd.DataFrame | None, methods: pd.DataFrame) -> str:
     stage_to_method = {}
     for r in methods.itertuples():
@@ -561,6 +575,11 @@ def write() -> None:
         rows = [[f"`{m}`", *[f"{f(speech.loc[m, c], 1)} / {f(noise.loc[m, c], 1)}" for c in speech.columns]]
                 for m in speech.index]
         parts.append(LEVEL_INTRO + "\n\n" + table(["model", *[f"{c} dBFS" for c in speech.columns]], rows))
+    ninr = [m for m in methods.method if m.startswith("ninr")]
+    if ninr:
+        others = [m for m in ("input", "sdrmm-spectral", "sdrmm-spectral-0.5", "sdrmm-rnnoise", "sdrmm-dpdfnet2",
+                              "sdrmm-dpdfnet8_8khz", "mmse-lsa") if m in syn_s.index]
+        parts.append(NINR_INTRO + "\n\n" + section_versus(syn_s, real_s, others + ninr))
     parts.append(CHAIN_INTRO + "\n\n" + section_chains(syn_s, real_s, methods))
     parts.append(DEMOD_INTRO + "\n\n" + section_demod(syn, syn_s))
     parts.append(methods_section(methods))
@@ -652,6 +671,17 @@ floor is left — compare with the upstream column, which has no floor. The
 `lavasr→*-dpdfnet2` chains test whether the deletion is a bandwidth problem: they extend
 the 300–3000 Hz radio band to wideband first, then denoise."""
 
+NINR_INTRO = """## SDR# NINR vs SDR--
+
+AIRSPY's NINR (SDR# "next", June 2026) is closed source; the benchmark runs it through
+SDR#'s own `shark.dll` under a portable Wine (`tools/setup_ninr.sh`, then point
+`SORB_SDRSHARP` at your SDR# folder — the DLL is not redistributed here). Like SDR#, the
+audio is resampled to 2.4 × the profile bandwidth, fed as complex samples and resampled
+back. **LP** is the current engine (`noise_filter_lp_*`) with SDR#'s built-in profiles and
+its default 10 dB depth; **HQ** is the classic threshold/slope engine (`noise_filter_*`),
+which this SDR# build no longer exposes, so its settings (threshold −30 dB, slope 50,
+30 dB depth) are this benchmark's choice."""
+
 LEVEL_INTRO = """### Is it the input level?
 
 Official DPDFNet on the same synthetic clips (NFM 10/16 dB, AM 14 dB, SSB 10 dB) with the
@@ -725,6 +755,14 @@ FOOTER = """## Metrics
 uv sync                                            # harness + metrics (Python 3.12)
 (cd tools/sdrmm-denoise && cargo build --release)  # SDR-- engines (Rust 1.99, pinned sdrmm commit)
 uv run sorb all                                    # corpus, process, score, asr, speed, level, report
+```
+
+SDR# NINR needs your own SDR# "next" build and a portable Wine (nothing system-wide):
+
+```sh
+tools/setup_ninr.sh
+export SORB_SDRSHARP=/path/to/sdrsharp-x86-next   # folder with shark.dll
+uv run sorb process -m 'ninr*'
 ```
 
 Step by step (everything is cached; re-running only does what is missing):

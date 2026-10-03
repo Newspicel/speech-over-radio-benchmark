@@ -25,6 +25,12 @@ dsp:noisereduce-nonstationary,0.00196
 dsp:noisereduce-stationary,0.01319
 dsp:subtraction,0.03524
 dsp:wiener,0.03564
+ninr:hq,0.03206
+ninr:lp:comm-narrow,0.01112
+ninr:lp:comm-narrow:30,0.01113
+ninr:lp:comm-wide,0.01309
+ninr:lp:hifi-soft,0.02216
+ninr:lp:lofi-hard,0.01303
 onnx:dtln,0.01202
 onnx:gtcrn,0.03271
 onnx:nsnet2,0.00488

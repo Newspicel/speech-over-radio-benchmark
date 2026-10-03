@@ -22,8 +22,8 @@ This repository measures that, end to end, on two test sets:
     across Europe (Zenodo 5927810) — real channel *and* a clean reference, half of them with
     the receiver 300 Hz off.
 
-70 methods, 17 of them combined chains. Last run: **2026-10-03** on arm64 / Darwin 27.0.0
-(Apple Silicon, 16 cores, 48 GB), code at commit `ad3cba8`.
+77 methods, 18 of them combined chains. Last run: **2026-10-03** on arm64 / Darwin 27.0.0
+(Apple Silicon, 16 cores, 48 GB), code at commit `0fbcb34`.
 
 > **The README is generated.** `uv run sorb all` re-runs everything that is not cached
 > and rewrites this file from `results/*.csv`; `uv run sorb report` only rewrites it.
@@ -34,7 +34,7 @@ This repository measures that, end to end, on two test sets:
 _Generated from the data on every run._
 
 - **Most intelligible (synthetic, Whisper WER):** `dpdfnet-dpdfnet2_8khz-12dB` at 25.1 % vs 28.3 % for the untouched input.
-- **63 of 69 methods make speech *harder* for ASR than doing nothing** (higher WER than the input), worst: `autonotch→deepfilternet3`, `demucs-master64`, `dpdfnet-dpdfnet4`, `metricgan+`, `dpdfnet-dpdfnet2`.
+- **68 of 76 methods make speech *harder* for ASR than doing nothing** (higher WER than the input), worst: `autonotch→deepfilternet3`, `demucs-master64`, `dpdfnet-dpdfnet4`, `metricgan+`, `dpdfnet-dpdfnet2`.
 - Best on **NFM** by WER: `sdrmm-dpdfnet8_8khz` (7.2 %).
 - Best on **AM** by WER: `sdrmm-dpdfnet8_8khz` (43.1 %).
 - Best on **SSB** by WER: `dpdfnet-dpdfnet2_8khz-12dB` (10.0 %).
@@ -43,7 +43,7 @@ _Generated from the data on every run._
 - **SDR-- neural denoisers are 40–44 ms later than their `latency()` reports** (measured on every clip, constant per model). The benchmark compensates it (`sorb realign`); SDR-- itself should add the model's look-ahead and resampler delay to `latency()`.
 - **The SDR-- auto-notch removes speech, not just tones:** speech −16.6 dB, WER 81.9 % (input 28.3 %). Its 4-sample (83 µs) decorrelation delay makes voiced speech predictable. The same LMS idea with a 2 ms delay at 8 kHz (`lms-notch`) keeps speech (−0.7 dB, WER 32.8 %).
 - **On fading AM the detector matters more than any denoiser:** synchronous detection alone takes WER from 76.9 % to 46.5 %.
-- **Real recordings, best SNR gain while keeping speech (speech change > −3 dB):** `demucs-dns48`: +20.1 dB, noise −25.1 dB, speech −1.96 dB.
+- **Real recordings, best SNR gain while keeping speech (speech change > −3 dB):** `ninr-lp-comm-narrow→sdrmm-dpdfnet8_8khz`: +20.2 dB, noise −22.8 dB, speech −1.44 dB.
 - **Speech deleted on real radio audio (median speech change < −20 dB or mute):** `autonotch→deepfilternet3`, `dpdfnet-dpdfnet4`, `dpdfnet-dpdfnet8_48khz_hr`, `sdrmm-dpdfnet4`, `sdrmm-dpdfnet8_48khz_hr`.
 
 ## Real off-air recordings
@@ -71,6 +71,12 @@ mute*. **Bold** = best among methods that keep the speech.
 | `noisereduce-stat` | −9.5 (−10.7) dB | −10.74 dB | −0.9 dB | −13.7 (−13.6) dB | −11.04 dB | +2.0 dB | −12.4 (−12.6) dB | −10.20 dB | +1.9 dB | −15.9 (−15.6) dB | −12.59 dB | +2.9 dB |
 | `lms-notch` | −0.3 (−3.6) dB | −0.64 dB | −0.2 dB | −0.5 (−1.2) dB | −0.96 dB | −0.4 dB | −0.2 (−0.5) dB | −0.67 dB | −0.4 dB | −0.0 (−0.2) dB | −0.59 dB | −0.5 dB |
 | `noisereduce-nonstat` | −11.9 (−12.2) dB | −9.18 dB | +1.6 dB | −12.2 (−12.3) dB | −10.41 dB | +2.0 dB | −13.2 (−13.5) dB | −11.13 dB | +1.4 dB | −12.7 (−12.0) dB | −11.80 dB | −0.2 dB |
+| `ninr-lp-comm-narrow` | −5.7 (−8.7) dB | −1.43 dB | +5.0 dB | −4.6 (−11.2) dB | −0.26 dB | +4.8 dB | −8.0 (−9.6) dB | −1.52 dB | +8.6 dB | −25.1 (−33.9) dB | −2.93 dB | +21.0 dB |
+| `ninr-lp-comm-narrow-30dB` | −6.5 (−9.2) dB | −1.53 dB | +5.7 dB | −4.7 (−12.2) dB | −0.37 dB | +4.9 dB | −9.7 (−11.7) dB | −1.88 dB | +10.5 dB | −36.5 (−41.7) dB | −4.14 dB | +31.8 dB |
+| `ninr-lp-comm-wide` | −5.1 (−8.2) dB | −1.05 dB | +4.3 dB | −5.2 (−15.2) dB | −0.24 dB | +6.7 dB | −8.1 (−9.5) dB | −1.49 dB | +8.5 dB | −27.1 (−34.9) dB | −2.49 dB | +21.6 dB |
+| `ninr-lp-hifi-soft` | −0.5 (−0.8) dB | −0.08 dB | +0.0 dB | −0.2 (−0.6) dB | −0.02 dB | +0.1 dB | −1.0 (−1.5) dB | −0.39 dB | +0.8 dB | −5.1 (−5.0) dB | −1.10 dB | +3.2 dB |
+| `ninr-lp-lofi-hard` | −0.8 (−1.1) dB | −0.12 dB | −0.0 dB | −0.3 (−1.0) dB | −0.03 dB | +0.2 dB | −1.8 (−2.4) dB | −0.62 dB | +1.1 dB | −7.5 (−7.1) dB | −1.61 dB | +4.5 dB |
+| `ninr-hq` | −10.3 (−11.4) dB | −11.29 dB | +2.1 dB | −15.3 (−15.1) dB | −6.17 dB | +8.5 dB | −15.1 (−15.6) dB | −8.82 dB | +8.4 dB | −25.7 (−24.3) dB | −7.57 dB | +14.9 dB |
 | `sdrmm-spectral` | −2.4 (−3.9) dB | −1.20 dB | +0.2 dB | −1.6 (−2.6) dB | −0.44 dB | +1.1 dB | −4.1 (−5.3) dB | −1.74 dB | +2.8 dB | −10.8 (−10.8) dB | −2.19 dB | +6.8 dB |
 | `sdrmm-spectral-0.5` | −2.1 (−3.0) dB | −1.07 dB | +0.2 dB | −1.5 (−2.2) dB | −0.42 dB | +1.0 dB | −3.6 (−4.2) dB | −1.59 dB | +2.4 dB | −7.8 (−7.6) dB | −1.97 dB | +5.2 dB |
 | `sdrmm-rnnoise` | −14.4 (−13.2) dB | −2.92 dB | +11.7 dB | −6.8 (−7.1) dB | −1.25 dB | +3.5 dB | −10.9 (−11.7) dB | −2.70 dB | +5.7 dB | −3.4 (−4.7) dB | −1.78 dB | +0.8 dB |
@@ -128,6 +134,7 @@ mute*. **Bold** = best among methods that keep the speech.
 | `sepformer-wham→sdrmm-spectral-0.5` | 6.2 (5.7) dB | 14.02 dB | +4.8 dB | 13.8 (12.4) dB | 19.07 dB | +4.5 dB | 4.1 (3.1) dB | 13.87 dB | +8.5 dB | 2.4 (3.4) dB | 18.84 dB | +14.1 dB |
 | `mmse-lsa→dpdfnet-dpdfnet4` | **−69.3 (−53.5) dB** | −18.02 dB | +24.4 dB | −40.5 (−42.0) dB | −12.35 dB | +23.6 dB | −50.7 (−48.3) dB | −25.12 dB, speech deleted | — | −58.4 (−54.2) dB | −6.85 dB | +41.0 dB |
 | `lms-notch→sdrmm-dpdfnet8_8khz` | −19.2 (−18.1) dB | −3.23 dB | +15.0 dB | −11.7 (−12.9) dB | −2.36 dB | +9.2 dB | −10.2 (−11.2) dB | −3.60 dB | +6.0 dB | −5.2 (−6.8) dB | −4.79 dB | +0.7 dB |
+| `ninr-lp-comm-narrow→sdrmm-dpdfnet8_8khz` | −19.6 (−20.2) dB | −2.99 dB | +16.1 dB | −15.6 (−20.6) dB | −0.95 dB | +15.9 dB | −15.6 (−15.1) dB | −2.26 dB | +10.4 dB | −32.9 (−40.3) dB | −3.24 dB | +27.9 dB |
 | `lavasr→dpdfnet-dpdfnet2` | −60.8 (−59.4) dB | −32.12 dB, speech deleted | — | −56.9 (−47.4) dB | −10.26 dB | **+34.9 dB** | −51.3 (−47.2) dB | −19.76 dB | +24.5 dB | −51.6 (−48.0) dB | −3.49 dB | +39.8 dB |
 | `lavasr→sdrmm-dpdfnet2` | −29.9 (−29.8) dB | −26.86 dB, speech deleted | — | −29.9 (−27.1) dB | −10.68 dB | +16.0 dB | −29.9 (−26.4) dB | −18.39 dB | +8.3 dB | −30.0 (−27.4) dB | −3.71 dB | +22.4 dB |
 | `lavasr→deepfilternet3` | −25.7 (−29.0) dB | −13.09 dB | +14.0 dB | −29.1 (−27.6) dB | −5.73 dB | +15.4 dB | −26.5 (−29.8) dB | −7.07 dB | +16.1 dB | −44.4 (−41.4) dB | −4.98 dB | +37.7 dB |
@@ -148,6 +155,12 @@ mute*. **Bold** = best among methods that keep the speech.
 | `noisereduce-stat` | −15.9 (−15.6) dB | −12.59 dB | +2.9 dB | 44.8 | 1.87 | 0.368 | 2.26 | 0 % |
 | `lms-notch` | −0.0 (−0.2) dB | −0.59 dB | −0.5 dB | 47.4 | 1.75 | 0.327 | 1.72 | 0 % |
 | `noisereduce-nonstat` | −12.7 (−12.0) dB | −11.80 dB | −0.2 dB | 44.5 | 1.88 | 0.369 | 2.24 | 0 % |
+| `ninr-lp-comm-narrow` | −25.1 (−33.9) dB | −2.93 dB | +21.0 dB | 47.0 | 1.72 | 0.301 | 2.55 | 4 % |
+| `ninr-lp-comm-narrow-30dB` | −36.5 (−41.7) dB | −4.14 dB | +31.8 dB | 54.8 | 1.58 | 0.287 | 2.36 | 12 % |
+| `ninr-lp-comm-wide` | −27.1 (−34.9) dB | −2.49 dB | +21.6 dB | 47.7 | 1.68 | 0.320 | 2.56 | 4 % |
+| `ninr-lp-hifi-soft` | −5.1 (−5.0) dB | −1.10 dB | +3.2 dB | 43.8 | 1.87 | 0.369 | 1.94 | 0 % |
+| `ninr-lp-lofi-hard` | −7.5 (−7.1) dB | −1.61 dB | +4.5 dB | 43.7 | 1.91 | 0.369 | 2.08 | 0 % |
+| `ninr-hq` | −25.7 (−24.3) dB | −7.57 dB | +14.9 dB | 42.6 | 1.56 | 0.347 | 2.09 | 15 % |
 | `sdrmm-spectral` | −10.8 (−10.8) dB | −2.19 dB | +6.8 dB | 45.4 | 1.82 | 0.365 | 2.18 | 0 % |
 | `sdrmm-spectral-0.5` | −7.8 (−7.6) dB | −1.97 dB | +5.2 dB | 43.7 | 1.87 | 0.360 | 2.07 | 0 % |
 | `sdrmm-rnnoise` | −3.4 (−4.7) dB | −1.78 dB | +0.8 dB | 47.4 | 2.01 | 0.371 | 2.31 | 2 % |
@@ -205,6 +218,7 @@ mute*. **Bold** = best among methods that keep the speech.
 | `sepformer-wham→sdrmm-spectral-0.5` | 2.4 (3.4) dB | 18.84 dB | +14.1 dB | 71.7 | 1.32 | 0.268 | 2.09 | 0 % |
 | `mmse-lsa→dpdfnet-dpdfnet4` | −58.4 (−54.2) dB | −6.85 dB | +41.0 dB | 51.0 | 1.59 | 0.320 | 2.28 | 19 % |
 | `lms-notch→sdrmm-dpdfnet8_8khz` | −5.2 (−6.8) dB | −4.79 dB | +0.7 dB | 41.3 | 2.10 | 0.403 | 2.70 | 0 % |
+| `ninr-lp-comm-narrow→sdrmm-dpdfnet8_8khz` | −32.9 (−40.3) dB | −3.24 dB | +27.9 dB | 43.6 | 1.93 | 0.343 | 2.61 | 6 % |
 | `lavasr→dpdfnet-dpdfnet2` | −51.6 (−48.0) dB | −3.49 dB | +39.8 dB | 45.6 | 1.66 | 0.369 | 2.61 | 12 % |
 | `lavasr→sdrmm-dpdfnet2` | −30.0 (−27.4) dB | −3.71 dB | +22.4 dB | 41.9 | 1.79 | 0.395 | 2.66 | 12 % |
 | `lavasr→deepfilternet3` | −44.4 (−41.4) dB | −4.98 dB | +37.7 dB | 50.1 | 1.82 | 0.370 | 2.64 | 6 % |
@@ -227,6 +241,12 @@ mute*. **Bold** = best among methods that keep the speech.
 | `noisereduce-stat` | −16.4 (−15.9) dB | −11.53 dB | +3.8 dB | 53.1 | 2.33 | 0 % |
 | `lms-notch` | 0.0 (−0.2) dB | −0.67 dB | −0.6 dB | 55.0 | 1.71 | 0 % |
 | `noisereduce-nonstat` | −12.1 (−12.1) dB | −10.86 dB | +0.9 dB | 54.3 | 2.28 | 0 % |
+| `ninr-lp-comm-narrow` | −22.8 (−31.2) dB | −2.76 dB | +15.7 dB | 58.1 | 2.46 | 2 % |
+| `ninr-lp-comm-narrow-30dB` | −41.7 (−39.8) dB | −3.79 dB | +26.8 dB | 64.8 | 2.35 | 6 % |
+| `ninr-lp-comm-wide` | −23.6 (−32.3) dB | −2.33 dB | +18.1 dB | 57.5 | 2.51 | 2 % |
+| `ninr-lp-hifi-soft` | −5.5 (−5.2) dB | −0.93 dB | +3.4 dB | 54.1 | 2.02 | 0 % |
+| `ninr-lp-lofi-hard` | −7.6 (−7.3) dB | −1.55 dB | +5.2 dB | 57.0 | 2.11 | 0 % |
+| `ninr-hq` | −27.5 (−24.9) dB | −8.35 dB | +15.5 dB | 61.8 | 2.21 | 2 % |
 | `sdrmm-spectral` | −12.0 (−11.2) dB | −2.07 dB | +7.9 dB | 55.8 | 2.21 | 0 % |
 | `sdrmm-spectral-0.5` | −8.3 (−7.8) dB | −1.89 dB | +5.4 dB | 55.0 | 2.10 | 0 % |
 | `sdrmm-rnnoise` | −3.4 (−5.1) dB | −2.51 dB | +0.6 dB | 61.2 | 2.03 | 2 % |
@@ -284,6 +304,7 @@ mute*. **Bold** = best among methods that keep the speech.
 | `sepformer-wham→sdrmm-spectral-0.5` | 2.0 (2.6) dB | 11.39 dB | +6.1 dB | 97.8 | 1.37 | 0 % |
 | `mmse-lsa→dpdfnet-dpdfnet4` | complete mute (−70.3) | −65.88 dB, speech deleted | — | 99.6 | 1.94 | 100 % |
 | `lms-notch→sdrmm-dpdfnet8_8khz` | −4.5 (−4.5) dB | −4.00 dB | +0.0 dB | 51.8 | 2.45 | 0 % |
+| `ninr-lp-comm-narrow→sdrmm-dpdfnet8_8khz` | −38.2 (−41.2) dB | −3.59 dB | +25.8 dB | 56.4 | 2.46 | 2 % |
 | `lavasr→dpdfnet-dpdfnet2` | complete mute (−65.7) | −47.73 dB, speech deleted | — | 98.8 | 1.87 | 92 % |
 | `lavasr→sdrmm-dpdfnet2` | −30.1 (−29.9) dB | −29.77 dB, speech deleted | — | 57.2 | 2.14 | 92 % |
 | `lavasr→deepfilternet3` | −44.7 (−40.4) dB | −8.59 dB | +31.4 dB | 73.0 | 2.23 | 15 % |
@@ -306,6 +327,12 @@ mute*. **Bold** = best among methods that keep the speech.
 | `noisereduce-stat` | −13.1 (−14.3) dB | −10.92 dB | +1.9 dB | 44.0 | 2.30 | 0 % |
 | `lms-notch` | −0.5 (−1.2) dB | −0.75 dB | +0.0 dB | 43.1 | 2.32 | 0 % |
 | `noisereduce-nonstat` | −8.4 (−11.7) dB | −7.71 dB | +1.6 dB | 43.1 | 2.43 | 0 % |
+| `ninr-lp-comm-narrow` | −10.8 (−18.0) dB | −0.29 dB | +10.0 dB | 45.9 | 2.63 | 0 % |
+| `ninr-lp-comm-narrow-30dB` | −18.0 (−23.2) dB | −0.34 dB | +15.7 dB | 47.5 | 2.56 | 0 % |
+| `ninr-lp-comm-wide` | −9.2 (−16.1) dB | −0.18 dB | +8.8 dB | 44.3 | 2.62 | 0 % |
+| `ninr-lp-hifi-soft` | −2.2 (−2.6) dB | −0.01 dB | +2.1 dB | 43.4 | 2.43 | 0 % |
+| `ninr-lp-lofi-hard` | −2.0 (−2.6) dB | −0.04 dB | +1.8 dB | 41.7 | 2.49 | 0 % |
+| `ninr-hq` | −10.8 (−14.6) dB | −5.29 dB | +3.8 dB | 51.8 | 1.81 | 1 % |
 | `sdrmm-spectral` | −1.0 (−2.1) dB | −0.08 dB | +0.6 dB | 45.3 | 2.52 | 0 % |
 | `sdrmm-spectral-0.5` | −0.9 (−1.7) dB | −0.08 dB | +0.5 dB | 44.6 | 2.49 | 0 % |
 | `sdrmm-rnnoise` | −3.2 (−6.2) dB | −0.32 dB | +2.7 dB | 45.2 | 2.64 | 0 % |
@@ -363,6 +390,7 @@ mute*. **Bold** = best among methods that keep the speech.
 | `sepformer-wham→sdrmm-spectral-0.5` | 17.7 (16.4) dB | 21.22 dB | +3.6 dB | 67.1 | 2.31 | 0 % |
 | `mmse-lsa→dpdfnet-dpdfnet4` | −47.0 (−45.5) dB | −5.76 dB | +26.0 dB | 65.9 | 2.27 | 28 % |
 | `lms-notch→sdrmm-dpdfnet8_8khz` | −7.4 (−10.3) dB | −1.39 dB | +6.4 dB | 44.8 | 2.84 | 0 % |
+| `ninr-lp-comm-narrow→sdrmm-dpdfnet8_8khz` | −20.1 (−25.7) dB | −0.60 dB | +18.7 dB | 46.1 | 2.80 | 0 % |
 | `lavasr→dpdfnet-dpdfnet2` | −46.2 (−44.8) dB | −5.36 dB | +29.9 dB | 65.6 | 2.46 | 26 % |
 | `lavasr→sdrmm-dpdfnet2` | −29.9 (−27.1) dB | −6.29 dB | +15.9 dB | 44.9 | 2.51 | 26 % |
 | `lavasr→deepfilternet3` | −35.0 (−31.7) dB | −3.35 dB | +29.2 dB | 64.5 | 2.53 | 8 % |
@@ -385,6 +413,12 @@ mute*. **Bold** = best among methods that keep the speech.
 | `noisereduce-stat` | −9.5 (−10.7) dB | −10.74 dB | −0.9 dB | 1.97 | 9 % |
 | `lms-notch` | −0.3 (−3.6) dB | −0.64 dB | −0.2 dB | 1.90 | 0 % |
 | `noisereduce-nonstat` | −11.9 (−12.2) dB | −9.18 dB | +1.6 dB | 1.94 | 0 % |
+| `ninr-lp-comm-narrow` | −5.7 (−8.7) dB | −1.43 dB | +5.0 dB | 2.21 | 0 % |
+| `ninr-lp-comm-narrow-30dB` | −6.5 (−9.2) dB | −1.53 dB | +5.7 dB | 2.19 | 0 % |
+| `ninr-lp-comm-wide` | −5.1 (−8.2) dB | −1.05 dB | +4.3 dB | 2.26 | 0 % |
+| `ninr-lp-hifi-soft` | −0.5 (−0.8) dB | −0.08 dB | +0.0 dB | 1.65 | 0 % |
+| `ninr-lp-lofi-hard` | −0.8 (−1.1) dB | −0.12 dB | −0.0 dB | 1.69 | 0 % |
+| `ninr-hq` | −10.3 (−11.4) dB | −11.29 dB | +2.1 dB | 1.70 | 0 % |
 | `sdrmm-spectral` | −2.4 (−3.9) dB | −1.20 dB | +0.2 dB | 2.06 | 0 % |
 | `sdrmm-spectral-0.5` | −2.1 (−3.0) dB | −1.07 dB | +0.2 dB | 1.84 | 0 % |
 | `sdrmm-rnnoise` | −14.4 (−13.2) dB | −2.92 dB | +11.7 dB | 2.31 | 0 % |
@@ -442,6 +476,7 @@ mute*. **Bold** = best among methods that keep the speech.
 | `sepformer-wham→sdrmm-spectral-0.5` | 6.2 (5.7) dB | 14.02 dB | +4.8 dB | 1.62 | 0 % |
 | `mmse-lsa→dpdfnet-dpdfnet4` | **−69.3 (−53.5) dB** | −18.02 dB | +24.4 dB | 1.80 | 45 % |
 | `lms-notch→sdrmm-dpdfnet8_8khz` | −19.2 (−18.1) dB | −3.23 dB | +15.0 dB | 2.52 | 0 % |
+| `ninr-lp-comm-narrow→sdrmm-dpdfnet8_8khz` | −19.6 (−20.2) dB | −2.99 dB | +16.1 dB | 2.50 | 0 % |
 | `lavasr→dpdfnet-dpdfnet2` | −60.8 (−59.4) dB | −32.12 dB, speech deleted | — | 1.89 | 64 % |
 | `lavasr→sdrmm-dpdfnet2` | −29.9 (−29.8) dB | −26.86 dB, speech deleted | — | 1.90 | 64 % |
 | `lavasr→deepfilternet3` | −25.7 (−29.0) dB | −13.09 dB | +14.0 dB | 2.13 | 0 % |
@@ -464,6 +499,12 @@ mute*. **Bold** = best among methods that keep the speech.
 | `noisereduce-stat` | −13.7 (−13.6) dB | −11.04 dB | +2.0 dB | 2.21 | 0 % |
 | `lms-notch` | −0.5 (−1.2) dB | −0.96 dB | −0.4 dB | 2.01 | 0 % |
 | `noisereduce-nonstat` | −12.2 (−12.3) dB | −10.41 dB | +2.0 dB | 2.23 | 0 % |
+| `ninr-lp-comm-narrow` | −4.6 (−11.2) dB | −0.26 dB | +4.8 dB | 2.38 | 0 % |
+| `ninr-lp-comm-narrow-30dB` | −4.7 (−12.2) dB | −0.37 dB | +4.9 dB | 2.37 | 0 % |
+| `ninr-lp-comm-wide` | −5.2 (−15.2) dB | −0.24 dB | +6.7 dB | 2.40 | 0 % |
+| `ninr-lp-hifi-soft` | −0.2 (−0.6) dB | −0.02 dB | +0.1 dB | 2.04 | 0 % |
+| `ninr-lp-lofi-hard` | −0.3 (−1.0) dB | −0.03 dB | +0.2 dB | 2.05 | 0 % |
+| `ninr-hq` | −15.3 (−15.1) dB | −6.17 dB | +8.5 dB | 1.90 | 0 % |
 | `sdrmm-spectral` | −1.6 (−2.6) dB | −0.44 dB | +1.1 dB | 2.23 | 0 % |
 | `sdrmm-spectral-0.5` | −1.5 (−2.2) dB | −0.42 dB | +1.0 dB | 2.13 | 0 % |
 | `sdrmm-rnnoise` | −6.8 (−7.1) dB | −1.25 dB | +3.5 dB | 2.43 | 0 % |
@@ -521,6 +562,7 @@ mute*. **Bold** = best among methods that keep the speech.
 | `sepformer-wham→sdrmm-spectral-0.5` | 13.8 (12.4) dB | 19.07 dB | +4.5 dB | 1.95 | 0 % |
 | `mmse-lsa→dpdfnet-dpdfnet4` | −40.5 (−42.0) dB | −12.35 dB | +23.6 dB | 2.10 | 41 % |
 | `lms-notch→sdrmm-dpdfnet8_8khz` | −11.7 (−12.9) dB | −2.36 dB | +9.2 dB | 2.74 | 0 % |
+| `ninr-lp-comm-narrow→sdrmm-dpdfnet8_8khz` | −15.6 (−20.6) dB | −0.95 dB | +15.9 dB | 2.67 | 0 % |
 | `lavasr→dpdfnet-dpdfnet2` | −56.9 (−47.4) dB | −10.26 dB | **+34.9 dB** | 2.19 | 36 % |
 | `lavasr→sdrmm-dpdfnet2` | −29.9 (−27.1) dB | −10.68 dB | +16.0 dB | 2.28 | 36 % |
 | `lavasr→deepfilternet3` | −29.1 (−27.6) dB | −5.73 dB | +15.4 dB | 2.39 | 9 % |
@@ -543,6 +585,12 @@ mute*. **Bold** = best among methods that keep the speech.
 | `noisereduce-stat` | −12.4 (−12.6) dB | −10.20 dB | +1.9 dB | 2.13 | 0 % |
 | `lms-notch` | −0.2 (−0.5) dB | −0.67 dB | −0.4 dB | 1.63 | 0 % |
 | `noisereduce-nonstat` | −13.2 (−13.5) dB | −11.13 dB | +1.4 dB | 2.14 | 0 % |
+| `ninr-lp-comm-narrow` | −8.0 (−9.6) dB | −1.52 dB | +8.6 dB | 2.32 | 0 % |
+| `ninr-lp-comm-narrow-30dB` | −9.7 (−11.7) dB | −1.88 dB | +10.5 dB | 2.29 | 0 % |
+| `ninr-lp-comm-wide` | −8.1 (−9.5) dB | −1.49 dB | +8.5 dB | 2.36 | 0 % |
+| `ninr-lp-hifi-soft` | −1.0 (−1.5) dB | −0.39 dB | +0.8 dB | 1.82 | 0 % |
+| `ninr-lp-lofi-hard` | −1.8 (−2.4) dB | −0.62 dB | +1.1 dB | 1.90 | 0 % |
+| `ninr-hq` | −15.1 (−15.6) dB | −8.82 dB | +8.4 dB | 1.97 | 0 % |
 | `sdrmm-spectral` | −4.1 (−5.3) dB | −1.74 dB | +2.8 dB | 2.01 | 0 % |
 | `sdrmm-spectral-0.5` | −3.6 (−4.2) dB | −1.59 dB | +2.4 dB | 1.93 | 0 % |
 | `sdrmm-rnnoise` | −10.9 (−11.7) dB | −2.70 dB | +5.7 dB | 2.12 | 3 % |
@@ -600,6 +648,7 @@ mute*. **Bold** = best among methods that keep the speech.
 | `sepformer-wham→sdrmm-spectral-0.5` | 4.1 (3.1) dB | 13.87 dB | +8.5 dB | 1.72 | 0 % |
 | `mmse-lsa→dpdfnet-dpdfnet4` | −50.7 (−48.3) dB | −25.12 dB, speech deleted | — | 1.87 | 60 % |
 | `lms-notch→sdrmm-dpdfnet8_8khz` | −10.2 (−11.2) dB | −3.60 dB | +6.0 dB | 2.46 | 0 % |
+| `ninr-lp-comm-narrow→sdrmm-dpdfnet8_8khz` | −15.6 (−15.1) dB | −2.26 dB | +10.4 dB | 2.42 | 0 % |
 | `lavasr→dpdfnet-dpdfnet2` | −51.3 (−47.2) dB | −19.76 dB | +24.5 dB | 2.04 | 53 % |
 | `lavasr→sdrmm-dpdfnet2` | −29.9 (−26.4) dB | −18.39 dB | +8.3 dB | 2.12 | 43 % |
 | `lavasr→deepfilternet3` | −26.5 (−29.8) dB | −7.07 dB | +16.1 dB | 2.22 | 17 % |
@@ -622,6 +671,12 @@ mute*. **Bold** = best among methods that keep the speech.
 | `noisereduce-stat` | −11.4 (−11.5) dB | −10.17 dB | +1.2 dB | 2.13 | 0 % |
 | `lms-notch` | −0.6 (−0.6) dB | −1.63 dB | −0.6 dB | 1.67 | 0 % |
 | `noisereduce-nonstat` | −12.7 (−13.4) dB | −10.84 dB | +0.6 dB | 2.19 | 0 % |
+| `ninr-lp-comm-narrow` | −5.0 (−4.8) dB | −0.81 dB | +4.2 dB | 2.40 | 0 % |
+| `ninr-lp-comm-narrow-30dB` | −5.5 (−5.5) dB | −0.99 dB | +4.5 dB | 2.35 | 0 % |
+| `ninr-lp-comm-wide` | −5.0 (−4.7) dB | −0.73 dB | +4.3 dB | 2.44 | 0 % |
+| `ninr-lp-hifi-soft` | −0.4 (−1.0) dB | −0.12 dB | +0.3 dB | 1.91 | 0 % |
+| `ninr-lp-lofi-hard` | −0.6 (−1.7) dB | −0.26 dB | +0.3 dB | 2.01 | 0 % |
+| `ninr-hq` | −10.5 (−9.6) dB | −5.48 dB | +6.0 dB | 2.10 | 0 % |
 | `sdrmm-spectral` | −2.8 (−3.6) dB | −0.76 dB | +2.1 dB | 2.00 | 0 % |
 | `sdrmm-spectral-0.5` | −2.6 (−3.1) dB | −0.72 dB | +1.9 dB | 1.92 | 0 % |
 | `sdrmm-rnnoise` | −11.0 (−12.7) dB | −6.49 dB | +3.4 dB | 1.86 | 0 % |
@@ -679,6 +734,7 @@ mute*. **Bold** = best among methods that keep the speech.
 | `sepformer-wham→sdrmm-spectral-0.5` | 6.3 (3.0) dB | 8.20 dB | −0.3 dB | 1.44 | 0 % |
 | `mmse-lsa→dpdfnet-dpdfnet4` | complete mute (−58.9) | −54.40 dB, speech deleted | — | 2.04 | 100 % |
 | `lms-notch→sdrmm-dpdfnet8_8khz` | −6.5 (−7.6) dB | −3.04 dB | +1.5 dB | 2.37 | 0 % |
+| `ninr-lp-comm-narrow→sdrmm-dpdfnet8_8khz` | −6.2 (−6.4) dB | −1.15 dB | +5.2 dB | 2.37 | 0 % |
 | `lavasr→dpdfnet-dpdfnet2` | complete mute (−66.9) | −66.64 dB, speech deleted | — | 2.04 | 100 % |
 | `lavasr→sdrmm-dpdfnet2` | −30.0 (−30.0) dB | −29.96 dB, speech deleted | — | 2.00 | 100 % |
 | `lavasr→deepfilternet3` | −44.8 (−42.7) dB | −52.90 dB, speech deleted | — | 1.96 | 67 % |
@@ -701,6 +757,12 @@ mute*. **Bold** = best among methods that keep the speech.
 | `noisereduce-stat` | −18.1 (−17.1) dB | −10.49 dB | +5.7 dB | 2.23 | 0 % |
 | `lms-notch` | −0.9 (−1.0) dB | −0.25 dB | +1.5 dB | 1.95 | 0 % |
 | `noisereduce-nonstat` | −18.4 (−16.3) dB | −8.84 dB | +4.2 dB | 2.26 | 0 % |
+| `ninr-lp-comm-narrow` | −9.3 (−8.8) dB | −0.09 dB | +2.0 dB | 2.51 | 0 % |
+| `ninr-lp-comm-narrow-30dB` | −10.5 (−12.2) dB | −0.09 dB | +2.0 dB | 2.53 | 0 % |
+| `ninr-lp-comm-wide` | −14.5 (−20.1) dB | −0.07 dB | **+25.5 dB** | 2.52 | 0 % |
+| `ninr-lp-hifi-soft` | −1.5 (−2.0) dB | −0.00 dB | +0.1 dB | 2.12 | 0 % |
+| `ninr-lp-lofi-hard` | −3.2 (−3.5) dB | −0.00 dB | +0.1 dB | 2.16 | 0 % |
+| `ninr-hq` | −19.4 (−16.7) dB | −6.20 dB | +7.9 dB | 2.19 | 0 % |
 | `sdrmm-spectral` | −7.1 (−6.9) dB | −0.06 dB | +0.6 dB | 2.27 | 0 % |
 | `sdrmm-spectral-0.5` | −4.9 (−4.7) dB | −0.06 dB | +0.5 dB | 2.23 | 0 % |
 | `sdrmm-rnnoise` | −2.7 (−7.7) dB | −0.15 dB | +2.6 dB | 2.24 | 0 % |
@@ -756,8 +818,9 @@ mute*. **Bold** = best among methods that keep the speech.
 | `deepfilternet3-12dB→voicefixer` | −9.3 (−9.5) dB | −4.06 dB | +5.6 dB | 2.00 | 0 % |
 | `dpdfnet2_8khz→lavasr` | −27.7 (−24.9) dB | −0.40 dB | +8.0 dB | 2.48 | 50 % |
 | `sepformer-wham→sdrmm-spectral-0.5` | 2.3 (2.3) dB | 21.18 dB | −4.1 dB | 1.92 | 0 % |
-| `mmse-lsa→dpdfnet-dpdfnet4` | **−47.8 (−42.5) dB** | −0.92 dB | **+24.5 dB** | 2.48 | 50 % |
+| `mmse-lsa→dpdfnet-dpdfnet4` | **−47.8 (−42.5) dB** | −0.92 dB | +24.5 dB | 2.48 | 50 % |
 | `lms-notch→sdrmm-dpdfnet8_8khz` | −13.6 (−14.4) dB | −0.20 dB | +3.2 dB | 2.41 | 0 % |
+| `ninr-lp-comm-narrow→sdrmm-dpdfnet8_8khz` | −11.4 (−12.9) dB | −0.07 dB | +2.5 dB | 2.53 | 0 % |
 | `lavasr→dpdfnet-dpdfnet2` | complete mute (−47.7) | −0.94 dB | — | 2.62 | 50 % |
 | `lavasr→sdrmm-dpdfnet2` | −29.6 (−25.1) dB | −0.95 dB | +19.3 dB | 2.47 | 0 % |
 | `lavasr→deepfilternet3` | −32.2 (−32.2) dB | −4.15 dB | +2.0 dB | 2.51 | 50 % |
@@ -776,76 +839,83 @@ over a chain's stages; model loading is excluded. Lower is faster; 1.0 = real ti
 
 | # | method | mean rank | WER % | PESQ-NB | PESQ-WB | ESTOI | SI-SDR dB | DNSMOS OVRL | noise Δ dB | speech Δ dB | RTF |
 | --: | :-- | --: | --: | --: | --: | --: | --: | --: | --: | --: | --: |
-|  | `input` | 33.8 | 28.3 | 1.75 | 1.50 | 0.429 | 1.1 | 1.65 | 0.0 | 0.0 |  |
+|  | `input` | 37.8 | 28.3 | 1.75 | 1.50 | 0.429 | 1.1 | 1.65 | 0.0 | 0.0 |  |
 | 1 | `sdrmm-dpdfnet8_8khz` | 2.0 | 25.2 | **2.36** | 1.97 | 0.549 | 8.7 | 2.66 | −9.8 | −2.9 | 0.143 |
-| 2 | `dpdfnet-dpdfnet8_8khz` | 4.8 | 27.4 | 1.96 | 1.52 | **0.583** | **9.8** | **2.71** | −15.5 | −2.9 | 0.157 |
-| 3 | `sdrmm-dpdfnet2_8khz` | 5.9 | 28.8 | 2.33 | 1.97 | 0.541 | 8.5 | 2.59 | −10.4 | −2.6 | 0.058 |
-| 4 | `sdrmm-dpdfnet2_8khz-0.5` | 6.5 | 26.1 | 2.20 | 1.95 | 0.509 | 7.8 | 2.38 | −8.7 | −2.4 | 0.057 |
-| 5 | `lms-notch→sdrmm-dpdfnet8_8khz` | 6.6 | 28.8 | 2.19 | 1.80 | 0.510 | 2.9 | 2.65 | −8.7 | −4.5 | 0.157 |
-| 6 | `bandpass→sdrmm-dpdfnet2_8khz` | 8.0 | 30.1 | 2.35 | **1.98** | 0.534 | 7.0 | 2.47 | −5.6 | −2.6 | 0.058 |
-| 7 | `dpdfnet-dpdfnet2_8khz-12dB` | 8.2 | **25.1** | 2.12 | 1.86 | 0.499 | 7.4 | 2.31 | −11.0 | −2.4 | 0.064 |
-| 8 | `dpdfnet-dpdfnet2_8khz` | 8.8 | 31.4 | 2.08 | 1.68 | 0.553 | 8.6 | 2.66 | −21.6 | −2.8 | 0.064 |
-| 9 | `dpdfnet2_8khz→lavasr` | 9.0 | 31.2 | 2.08 | 1.67 | 0.541 | 8.6 | 2.65 | −20.1 | −2.8 | 0.082 |
-| 10 | `mossformer2-48k` | 14.2 | 35.8 | 2.14 | 1.68 | 0.495 | 7.2 | 2.52 | −38.3 | −3.5 | 0.034 |
-| 11 | `mmse-stsa` | 14.2 | 30.7 | 1.97 | 1.67 | 0.443 | 4.6 | 2.40 | −15.4 | −3.8 | 0.037 |
-| 12 | `noisereduce-stat` | 15.4 | 27.7 | 1.93 | 1.66 | 0.451 | 2.2 | 2.20 | −18.0 | −11.1 | 0.013 |
-| 13 | `noisereduce-nonstat` | 15.6 | 27.7 | 1.93 | 1.67 | 0.445 | 1.4 | 2.20 | −15.2 | −11.5 | 0.002 |
-| 14 | `sdrmm-spectral-0.5→dpdfnet2-0.5` | 20.5 | 30.0 | 1.98 | 1.69 | 0.426 | 3.3 | 2.17 | −22.6 | −15.6 | 0.060 |
-| 15 | `mmse-lsa` | 21.0 | 32.3 | 1.90 | 1.60 | 0.434 | 4.5 | 2.31 | −17.0 | −4.2 | 0.037 |
-| 16 | `deepfilternet3-12dB` | 22.0 | 29.0 | 1.85 | 1.58 | 0.438 | 3.3 | 2.15 | −12.0 | −7.1 | 0.020 |
-| 17 | `sdrmm-spectral` | 22.2 | 30.7 | 2.00 | 1.65 | 0.418 | 5.1 | 2.17 | −9.7 | −2.2 | 0.004 |
-| 18 | `sdrmm-dpdfnet8` | 23.8 | 31.5 | 1.81 | 1.53 | 0.459 | 1.0 | 2.12 | −30.1 | −29.9 | 0.150 |
-| 19 | `cmgan` | 25.0 | 40.5 | 1.70 | 1.39 | 0.447 | 7.5 | 2.47 | −18.7 | −2.7 | 0.413 |
-| 20 | `dpdfnet-dpdfnet2-15dB` | 25.2 | 29.4 | 1.82 | 1.56 | 0.441 | 1.4 | 2.05 | −15.0 | −15.0 | 0.064 |
-| 21 | `sdrmm-dpdfnet2-0.5` | 27.2 | 30.0 | 1.80 | 1.55 | 0.440 | 1.3 | 2.05 | −15.1 | −15.0 | 0.057 |
-| 22 | `gtcrn` | 27.5 | 44.8 | 1.89 | 1.53 | 0.406 | 6.2 | 2.24 | −39.9 | −6.9 | 0.033 |
-| 23 | `sdrmm-baseline` | 27.5 | 33.1 | 1.82 | 1.53 | 0.445 | 1.0 | 2.09 | −30.1 | −29.6 | 0.027 |
-| 24 | `sdrmm-dpdfnet8_48khz_hr` | 27.8 | 31.8 | 1.81 | 1.54 | 0.451 | 0.4 | 2.03 | −30.1 | −30.0 | 0.258 |
-| 25 | `sdrmm-spectral-0.5` | 28.0 | 28.8 | 1.94 | 1.67 | 0.415 | 4.4 | 2.01 | −7.5 | −2.0 | 0.004 |
-| 26 | `bandpass` | 28.0 | 28.6 | 1.78 | 1.55 | 0.457 | 1.1 | 1.65 | −0.2 | −0.2 | 0.001 |
-| 27 | `wiener` | 28.2 | 33.8 | 1.83 | 1.52 | 0.420 | 4.0 | 2.17 | −17.8 | −4.5 | 0.036 |
-| 28 | `subtraction` | 28.2 | 32.0 | 1.86 | 1.54 | 0.439 | 5.5 | 2.04 | −15.7 | −3.3 | 0.035 |
-| 29 | `sdrmm-rnnoise-0.5` | 29.5 | 31.1 | 1.83 | 1.59 | 0.404 | 1.1 | 2.06 | −10.0 | −7.3 | 0.006 |
-| 30 | `demucs-dns64` | 33.0 | 44.5 | 1.61 | 1.25 | 0.385 | 7.1 | 2.38 | −38.2 | −3.6 | 0.016 |
-| 31 | `sdrmm-dpdfnet2` | 33.0 | 32.5 | 1.78 | 1.50 | 0.440 | 0.2 | 1.99 | −30.1 | −30.0 | 0.056 |
-| 32 | `sdrmm-dpdfnet2_48khz_hr` | 33.5 | 32.6 | 1.77 | 1.50 | 0.438 | 0.1 | 2.03 | −30.1 | −30.0 | 0.114 |
-| 33 | `voicefixer` | 34.8 | 62.4 | 1.74 | 1.19 | 0.366 | −28.5 | 2.34 | −21.9 | 6.2 | 0.126 |
-| 34 | `frcrn` | 35.0 | 53.6 | 1.71 | 1.44 | 0.383 | −2.1 | 2.20 | −47.5 | −13.6 | 0.069 |
-| 35 | `sdrmm-dpdfnet4` | 35.5 | 32.5 | 1.72 | 1.46 | 0.439 | −0.3 | 1.97 | −30.1 | −29.9 | 0.086 |
-| 36 | `lavasr→sdrmm-dpdfnet2` | 36.2 | 32.8 | 1.75 | 1.48 | 0.438 | −0.2 | 1.99 | −30.1 | −29.3 | 0.074 |
-| 37 | `deepfilternet3-12dB→voicefixer` | 37.2 | 62.7 | 1.71 | 1.16 | 0.352 | −29.3 | 2.26 | −33.4 | 1.6 | 0.146 |
-| 38 | `lavasr→deepfilternet3` | 38.2 | 57.4 | 1.66 | 1.34 | 0.344 | −1.1 | 2.23 | −39.0 | −9.3 | 0.038 |
-| 39 | `sdrmm-spectral→sdrmm-rnnoise` | 39.5 | 38.2 | 1.75 | 1.39 | 0.375 | 4.4 | 2.03 | −16.2 | −4.1 | 0.010 |
-| 40 | `deepfilternet3` | 39.8 | 58.3 | 1.63 | 1.35 | 0.337 | −1.4 | 2.22 | −43.3 | −9.6 | 0.020 |
-| 41 | `deepfilternet3→sdrmm-spectral-0.5` | 40.8 | 58.7 | 1.60 | 1.33 | 0.340 | −1.3 | 2.23 | −47.4 | −9.6 | 0.024 |
-| 42 | `gate` | 42.0 | 35.2 | 1.70 | 1.46 | 0.384 | 1.6 | 1.93 | −2.6 | −0.1 | 0.000 |
-| 43 | `sdrmm-rnnoise` | 42.2 | 40.8 | 1.76 | 1.50 | 0.360 | −1.5 | 1.96 | −11.7 | −8.6 | 0.006 |
-| 44 | `dtln` | 42.2 | 51.2 | 1.68 | 1.26 | 0.359 | 5.3 | 2.07 | −34.6 | −3.9 | 0.012 |
-| 45 | `demucs-dns48` | 43.0 | 57.0 | 1.40 | 1.19 | 0.305 | 1.6 | 2.34 | −45.2 | −4.6 | 0.010 |
-| 46 | `bandpass→deepfilternet3` | 43.0 | 60.8 | 1.60 | 1.32 | 0.313 | −4.3 | 2.18 | −42.9 | −11.1 | 0.021 |
-| 47 | `lms-notch` | 43.8 | 32.8 | 1.68 | 1.42 | 0.383 | −2.2 | 1.58 | −0.0 | −0.7 | 0.014 |
-| 48 | `sdrmm-spectral-0.5→deepfilternet3` | 44.2 | 55.0 | 1.60 | 1.31 | 0.321 | −0.9 | 2.10 | −49.4 | −11.0 | 0.024 |
-| 49 | `deepfilternet2` | 45.2 | 64.3 | 1.51 | 1.28 | 0.308 | −1.3 | 2.21 | −58.6 | −10.7 | 0.020 |
-| 50 | `sdrmm-rnnoise→sdrmm-spectral` | 47.2 | 42.1 | 1.60 | 1.33 | 0.368 | −1.4 | 1.89 | −15.8 | −8.7 | 0.010 |
-| 51 | `dpdfnet-dpdfnet8` | 49.8 | 79.7 | 1.43 | 1.25 | 0.242 | −8.3 | 2.25 | −69.1 | −63.1 | 0.165 |
-| 52 | `rnnoise-xiph` | 50.0 | 70.8 | 1.55 | 1.39 | 0.238 | −5.6 | 2.13 | −24.8 | −10.2 | 0.046 |
-| 53 | `dpdfnet-dpdfnet8_48khz_hr` | 50.0 | 78.8 | 1.58 | 1.42 | 0.253 | −19.6 | 2.13 | −67.0 | −73.6 | 0.246 |
-| 54 | `mmse-lsa→dpdfnet-dpdfnet4` | 50.8 | 72.8 | 1.62 | 1.36 | 0.291 | −5.5 | 2.04 | −72.0 | −28.5 | 0.135 |
-| 55 | `dpdfnet-baseline` | 52.5 | 74.2 | 1.53 | 1.28 | 0.240 | −7.0 | 2.10 | −64.5 | −50.5 | 0.035 |
-| 56 | `sepformer-wham` | 55.8 | 71.5 | 1.22 | 1.08 | 0.207 | −3.9 | 2.12 | −15.7 | 17.6 | 0.176 |
-| 57 | `sepformer-wham→sdrmm-spectral-0.5` | 55.8 | 71.1 | 1.20 | 1.09 | 0.206 | −3.9 | 2.13 | −20.6 | 17.4 | 0.180 |
-| 58 | `nsnet2` | 56.5 | 70.0 | 1.51 | 1.26 | 0.271 | −3.3 | 1.86 | −47.8 | −23.5 | 0.005 |
-| 59 | `autonotch→deepfilternet3` | 57.0 | 99.5 | 1.56 | 1.35 | 0.038 | −32.2 | 2.12 | −55.6 | −68.1 | 0.026 |
-| 60 | `voicefixer-mode2` | 57.2 | 69.9 | 1.45 | 1.16 | 0.289 | −34.4 | 1.81 | −6.8 | 8.9 | 0.130 |
-| 61 | `dpdfnet-dpdfnet2` | 57.8 | 82.2 | 1.43 | 1.22 | 0.221 | −13.1 | 2.07 | −69.1 | −61.3 | 0.065 |
-| 62 | `lavasr→dpdfnet-dpdfnet2` | 58.2 | 78.6 | 1.41 | 1.22 | 0.249 | −10.1 | 2.03 | −68.9 | −38.9 | 0.083 |
-| 63 | `dpdfnet-dpdfnet2_48khz_hr` | 58.2 | 79.4 | 1.38 | 1.21 | 0.204 | −12.7 | 2.09 | −71.7 | −72.2 | 0.092 |
-| 64 | `dpdfnet-dpdfnet4` | 59.0 | 83.4 | 1.46 | 1.24 | 0.225 | −6.0 | 2.04 | −69.5 | −61.7 | 0.098 |
-| 65 | `sepformer-dns4` | 63.2 | 66.2 | 1.34 | 1.05 | 0.198 | −3.0 | 1.51 | 21.7 | 24.0 | 0.326 |
-| 66 | `sdrmm-autonotch` | 63.5 | 81.9 | 1.55 | 1.42 | 0.145 | −20.6 | 1.53 | −10.8 | −16.6 | 0.006 |
-| 67 | `demucs-master64` | 65.0 | 96.7 | 1.33 | 1.24 | 0.020 | −25.3 | 2.03 | −62.2 | −43.5 | 0.017 |
-| 68 | `autonotch→sdrmm-spectral` | 65.2 | 81.0 | 1.39 | 1.21 | 0.161 | −21.1 | 1.65 | −18.6 | −24.4 | 0.010 |
-| 69 | `metricgan+` | 65.2 | 83.1 | 1.51 | 1.26 | 0.184 | −6.5 | 1.39 | −3.0 | 3.6 | 0.003 |
+| 2 | `dpdfnet-dpdfnet8_8khz` | 5.0 | 27.4 | 1.96 | 1.52 | **0.583** | **9.8** | **2.71** | −15.5 | −2.9 | 0.157 |
+| 3 | `sdrmm-dpdfnet2_8khz` | 6.6 | 28.8 | 2.33 | 1.97 | 0.541 | 8.5 | 2.59 | −10.4 | −2.6 | 0.058 |
+| 4 | `sdrmm-dpdfnet2_8khz-0.5` | 6.8 | 26.1 | 2.20 | 1.95 | 0.509 | 7.8 | 2.38 | −8.7 | −2.4 | 0.057 |
+| 5 | `lms-notch→sdrmm-dpdfnet8_8khz` | 7.4 | 28.8 | 2.19 | 1.80 | 0.510 | 2.9 | 2.65 | −8.7 | −4.5 | 0.157 |
+| 6 | `dpdfnet-dpdfnet2_8khz-12dB` | 8.5 | **25.1** | 2.12 | 1.86 | 0.499 | 7.4 | 2.31 | −11.0 | −2.4 | 0.064 |
+| 7 | `bandpass→sdrmm-dpdfnet2_8khz` | 8.8 | 30.1 | 2.35 | **1.98** | 0.534 | 7.0 | 2.47 | −5.6 | −2.6 | 0.058 |
+| 8 | `dpdfnet-dpdfnet2_8khz` | 9.5 | 31.4 | 2.08 | 1.68 | 0.553 | 8.6 | 2.66 | −21.6 | −2.8 | 0.064 |
+| 9 | `dpdfnet2_8khz→lavasr` | 9.8 | 31.2 | 2.08 | 1.67 | 0.541 | 8.6 | 2.65 | −20.1 | −2.8 | 0.082 |
+| 10 | `mossformer2-48k` | 15.8 | 35.8 | 2.14 | 1.68 | 0.495 | 7.2 | 2.52 | −38.3 | −3.5 | 0.034 |
+| 11 | `mmse-stsa` | 16.0 | 30.7 | 1.97 | 1.67 | 0.443 | 4.6 | 2.40 | −15.4 | −3.8 | 0.037 |
+| 12 | `noisereduce-stat` | 17.1 | 27.7 | 1.93 | 1.66 | 0.451 | 2.2 | 2.20 | −18.0 | −11.1 | 0.013 |
+| 13 | `noisereduce-nonstat` | 17.4 | 27.7 | 1.93 | 1.67 | 0.445 | 1.4 | 2.20 | −15.2 | −11.5 | 0.002 |
+| 14 | `ninr-lp-comm-narrow→sdrmm-dpdfnet8_8khz` | 19.5 | 32.9 | 1.86 | 1.54 | 0.487 | 6.5 | 2.40 | −56.7 | −3.8 | 0.154 |
+| 15 | `sdrmm-spectral-0.5→dpdfnet2-0.5` | 23.0 | 30.0 | 1.98 | 1.69 | 0.426 | 3.3 | 2.17 | −22.6 | −15.6 | 0.060 |
+| 16 | `mmse-lsa` | 23.2 | 32.3 | 1.90 | 1.60 | 0.434 | 4.5 | 2.31 | −17.0 | −4.2 | 0.037 |
+| 17 | `ninr-lp-lofi-hard` | 23.5 | 28.4 | 2.04 | 1.77 | 0.468 | 4.6 | 1.98 | −6.2 | −1.2 | 0.013 |
+| 18 | `sdrmm-spectral` | 25.0 | 30.7 | 2.00 | 1.65 | 0.418 | 5.1 | 2.17 | −9.7 | −2.2 | 0.004 |
+| 19 | `deepfilternet3-12dB` | 25.2 | 29.0 | 1.85 | 1.58 | 0.438 | 3.3 | 2.15 | −12.0 | −7.1 | 0.020 |
+| 20 | `ninr-lp-hifi-soft` | 27.0 | 28.3 | 1.91 | 1.67 | 0.466 | 3.5 | 1.85 | −5.0 | −0.7 | 0.022 |
+| 21 | `sdrmm-dpdfnet8` | 27.2 | 31.5 | 1.81 | 1.53 | 0.459 | 1.0 | 2.12 | −30.1 | −29.9 | 0.150 |
+| 22 | `cmgan` | 28.2 | 40.5 | 1.70 | 1.39 | 0.447 | 7.5 | 2.47 | −18.7 | −2.7 | 0.413 |
+| 23 | `dpdfnet-dpdfnet2-15dB` | 28.8 | 29.4 | 1.82 | 1.56 | 0.441 | 1.4 | 2.05 | −15.0 | −15.0 | 0.064 |
+| 24 | `sdrmm-dpdfnet2-0.5` | 30.8 | 30.0 | 1.80 | 1.55 | 0.440 | 1.3 | 2.05 | −15.1 | −15.0 | 0.057 |
+| 25 | `sdrmm-spectral-0.5` | 31.0 | 28.8 | 1.94 | 1.67 | 0.415 | 4.4 | 2.01 | −7.5 | −2.0 | 0.004 |
+| 26 | `sdrmm-dpdfnet8_48khz_hr` | 31.2 | 31.8 | 1.81 | 1.54 | 0.451 | 0.4 | 2.03 | −30.1 | −30.0 | 0.258 |
+| 27 | `subtraction` | 31.2 | 32.0 | 1.86 | 1.54 | 0.439 | 5.5 | 2.04 | −15.7 | −3.3 | 0.035 |
+| 28 | `sdrmm-baseline` | 31.2 | 33.1 | 1.82 | 1.53 | 0.445 | 1.0 | 2.09 | −30.1 | −29.6 | 0.027 |
+| 29 | `gtcrn` | 31.8 | 44.8 | 1.89 | 1.53 | 0.406 | 6.2 | 2.24 | −39.9 | −6.9 | 0.033 |
+| 30 | `ninr-hq` | 32.2 | 28.2 | 1.85 | 1.54 | 0.425 | 2.0 | 1.92 | −25.4 | −8.1 | 0.032 |
+| 31 | `wiener` | 32.2 | 33.8 | 1.83 | 1.52 | 0.420 | 4.0 | 2.17 | −17.8 | −4.5 | 0.036 |
+| 32 | `bandpass` | 32.2 | 28.6 | 1.78 | 1.55 | 0.457 | 1.1 | 1.65 | −0.2 | −0.2 | 0.001 |
+| 33 | `sdrmm-rnnoise-0.5` | 33.5 | 31.1 | 1.83 | 1.59 | 0.404 | 1.1 | 2.06 | −10.0 | −7.3 | 0.006 |
+| 34 | `ninr-lp-comm-narrow` | 36.0 | 33.2 | 1.61 | 1.42 | 0.410 | 4.7 | 2.27 | −31.6 | −2.4 | 0.011 |
+| 35 | `sdrmm-dpdfnet2` | 36.5 | 32.5 | 1.78 | 1.50 | 0.440 | 0.2 | 1.99 | −30.1 | −30.0 | 0.056 |
+| 36 | `sdrmm-dpdfnet2_48khz_hr` | 37.0 | 32.6 | 1.77 | 1.50 | 0.438 | 0.1 | 2.03 | −30.1 | −30.0 | 0.114 |
+| 37 | `demucs-dns64` | 38.0 | 44.5 | 1.61 | 1.25 | 0.385 | 7.1 | 2.38 | −38.2 | −3.6 | 0.016 |
+| 38 | `ninr-lp-comm-wide` | 38.2 | 34.3 | 1.59 | 1.40 | 0.402 | 4.9 | 2.29 | −39.0 | −2.4 | 0.013 |
+| 39 | `sdrmm-dpdfnet4` | 39.2 | 32.5 | 1.72 | 1.46 | 0.439 | −0.3 | 1.97 | −30.1 | −29.9 | 0.086 |
+| 40 | `voicefixer` | 39.5 | 62.4 | 1.74 | 1.19 | 0.366 | −28.5 | 2.34 | −21.9 | 6.2 | 0.126 |
+| 41 | `lavasr→sdrmm-dpdfnet2` | 39.8 | 32.8 | 1.75 | 1.48 | 0.438 | −0.2 | 1.99 | −30.1 | −29.3 | 0.074 |
+| 42 | `frcrn` | 40.2 | 53.6 | 1.71 | 1.44 | 0.383 | −2.1 | 2.20 | −47.5 | −13.6 | 0.069 |
+| 43 | `deepfilternet3-12dB→voicefixer` | 42.5 | 62.7 | 1.71 | 1.16 | 0.352 | −29.3 | 2.26 | −33.4 | 1.6 | 0.146 |
+| 44 | `ninr-lp-comm-narrow-30dB` | 42.5 | 40.7 | 1.63 | 1.33 | 0.397 | 3.6 | 2.13 | −50.1 | −3.2 | 0.011 |
+| 45 | `lavasr→deepfilternet3` | 43.5 | 57.4 | 1.66 | 1.34 | 0.344 | −1.1 | 2.23 | −39.0 | −9.3 | 0.038 |
+| 46 | `sdrmm-spectral→sdrmm-rnnoise` | 44.8 | 38.2 | 1.75 | 1.39 | 0.375 | 4.4 | 2.03 | −16.2 | −4.1 | 0.010 |
+| 47 | `deepfilternet3` | 45.0 | 58.3 | 1.63 | 1.35 | 0.337 | −1.4 | 2.22 | −43.3 | −9.6 | 0.020 |
+| 48 | `deepfilternet3→sdrmm-spectral-0.5` | 46.5 | 58.7 | 1.60 | 1.33 | 0.340 | −1.3 | 2.23 | −47.4 | −9.6 | 0.024 |
+| 49 | `gate` | 47.5 | 35.2 | 1.70 | 1.46 | 0.384 | 1.6 | 1.93 | −2.6 | −0.1 | 0.000 |
+| 50 | `dtln` | 47.8 | 51.2 | 1.68 | 1.26 | 0.359 | 5.3 | 2.07 | −34.6 | −3.9 | 0.012 |
+| 51 | `sdrmm-rnnoise` | 48.0 | 40.8 | 1.76 | 1.50 | 0.360 | −1.5 | 1.96 | −11.7 | −8.6 | 0.006 |
+| 52 | `demucs-dns48` | 48.5 | 57.0 | 1.40 | 1.19 | 0.305 | 1.6 | 2.34 | −45.2 | −4.6 | 0.010 |
+| 53 | `bandpass→deepfilternet3` | 48.8 | 60.8 | 1.60 | 1.32 | 0.313 | −4.3 | 2.18 | −42.9 | −11.1 | 0.021 |
+| 54 | `lms-notch` | 49.0 | 32.8 | 1.68 | 1.42 | 0.383 | −2.2 | 1.58 | −0.0 | −0.7 | 0.014 |
+| 55 | `sdrmm-spectral-0.5→deepfilternet3` | 50.2 | 55.0 | 1.60 | 1.31 | 0.321 | −0.9 | 2.10 | −49.4 | −11.0 | 0.024 |
+| 56 | `deepfilternet2` | 51.2 | 64.3 | 1.51 | 1.28 | 0.308 | −1.3 | 2.21 | −58.6 | −10.7 | 0.020 |
+| 57 | `sdrmm-rnnoise→sdrmm-spectral` | 53.8 | 42.1 | 1.60 | 1.33 | 0.368 | −1.4 | 1.89 | −15.8 | −8.7 | 0.010 |
+| 58 | `dpdfnet-dpdfnet8` | 55.8 | 79.7 | 1.43 | 1.25 | 0.242 | −8.3 | 2.25 | −69.1 | −63.1 | 0.165 |
+| 59 | `dpdfnet-dpdfnet8_48khz_hr` | 56.0 | 78.8 | 1.58 | 1.42 | 0.253 | −19.6 | 2.13 | −67.0 | −73.6 | 0.246 |
+| 60 | `rnnoise-xiph` | 56.0 | 70.8 | 1.55 | 1.39 | 0.238 | −5.6 | 2.13 | −24.8 | −10.2 | 0.046 |
+| 61 | `mmse-lsa→dpdfnet-dpdfnet4` | 56.5 | 72.8 | 1.62 | 1.36 | 0.291 | −5.5 | 2.04 | −72.0 | −28.5 | 0.135 |
+| 62 | `dpdfnet-baseline` | 58.8 | 74.2 | 1.53 | 1.28 | 0.240 | −7.0 | 2.10 | −64.5 | −50.5 | 0.035 |
+| 63 | `sepformer-wham→sdrmm-spectral-0.5` | 62.0 | 71.1 | 1.20 | 1.09 | 0.206 | −3.9 | 2.13 | −20.6 | 17.4 | 0.180 |
+| 64 | `sepformer-wham` | 62.0 | 71.5 | 1.22 | 1.08 | 0.207 | −3.9 | 2.12 | −15.7 | 17.6 | 0.176 |
+| 65 | `nsnet2` | 63.2 | 70.0 | 1.51 | 1.26 | 0.271 | −3.3 | 1.86 | −47.8 | −23.5 | 0.005 |
+| 66 | `autonotch→deepfilternet3` | 63.2 | 99.5 | 1.56 | 1.35 | 0.038 | −32.2 | 2.12 | −55.6 | −68.1 | 0.026 |
+| 67 | `dpdfnet-dpdfnet2` | 64.0 | 82.2 | 1.43 | 1.22 | 0.221 | −13.1 | 2.07 | −69.1 | −61.3 | 0.065 |
+| 68 | `voicefixer-mode2` | 64.2 | 69.9 | 1.45 | 1.16 | 0.289 | −34.4 | 1.81 | −6.8 | 8.9 | 0.130 |
+| 69 | `dpdfnet-dpdfnet2_48khz_hr` | 64.5 | 79.4 | 1.38 | 1.21 | 0.204 | −12.7 | 2.09 | −71.7 | −72.2 | 0.092 |
+| 70 | `lavasr→dpdfnet-dpdfnet2` | 64.5 | 78.6 | 1.41 | 1.22 | 0.249 | −10.1 | 2.03 | −68.9 | −38.9 | 0.083 |
+| 71 | `dpdfnet-dpdfnet4` | 65.2 | 83.4 | 1.46 | 1.24 | 0.225 | −6.0 | 2.04 | −69.5 | −61.7 | 0.098 |
+| 72 | `sepformer-dns4` | 70.2 | 66.2 | 1.34 | 1.05 | 0.198 | −3.0 | 1.51 | 21.7 | 24.0 | 0.326 |
+| 73 | `sdrmm-autonotch` | 70.5 | 81.9 | 1.55 | 1.42 | 0.145 | −20.6 | 1.53 | −10.8 | −16.6 | 0.006 |
+| 74 | `demucs-master64` | 71.2 | 96.7 | 1.33 | 1.24 | 0.020 | −25.3 | 2.03 | −62.2 | −43.5 | 0.017 |
+| 75 | `metricgan+` | 72.2 | 83.1 | 1.51 | 1.26 | 0.184 | −6.5 | 1.39 | −3.0 | 3.6 | 0.003 |
+| 76 | `autonotch→sdrmm-spectral` | 72.2 | 81.0 | 1.39 | 1.21 | 0.161 | −21.1 | 1.65 | −18.6 | −24.4 | 0.010 |
 
 ![trade-off on synthetic set](results/plots/synthetic_tradeoff.png)
 
@@ -867,6 +937,12 @@ over a chain's stages; model loading is excluded. Lower is faster; 1.0 = real ti
 | `noisereduce-stat` | 1.87 | 2.24 | 1.36 | 1.53 | 1.64 | 1.52 | 1.92 | 1.38 | 1.54 | 2.51 | 3.02 | 1.49 | 2.04 | 2.46 | 1.87 | 2.46 | 1.52 | 2.46 | 1.90 |
 | `lms-notch` | 1.54 | 1.81 | 1.78 | 1.38 | 1.51 | 1.47 | 1.53 | 1.32 | 1.40 | 1.98 | 2.55 | 1.33 | 1.64 | 2.06 | 1.71 | 1.92 | 1.50 | 1.97 | 1.59 |
 | `noisereduce-nonstat` | 1.81 | 2.21 | 1.42 | 1.51 | 1.67 | 1.53 | 1.85 | 1.38 | 1.52 | 2.48 | 3.02 | 1.48 | 2.02 | 2.54 | 1.89 | 2.49 | 1.55 | 2.49 | 1.90 |
+| `ninr-lp-comm-narrow` | 1.62 | 2.01 | 1.13 | 1.29 | 1.32 | 1.36 | 2.03 | 1.15 | 1.30 | 2.17 | 2.66 | 1.32 | 1.79 | 1.84 | 1.41 | 1.72 | 1.31 | 1.72 | 1.37 |
+| `ninr-lp-comm-narrow-30dB` | 1.74 | 2.08 | 1.14 | 1.41 | 1.33 | 1.34 | 1.93 | 1.17 | 1.46 | 2.11 | 2.48 | 1.44 | 1.80 | 1.78 | 1.45 | 1.75 | 1.29 | 1.72 | 1.50 |
+| `ninr-lp-comm-wide` | 1.63 | 2.03 | 1.14 | 1.27 | 1.28 | 1.33 | 2.04 | 1.15 | 1.30 | 2.07 | 2.59 | 1.29 | 1.72 | 1.82 | 1.39 | 1.75 | 1.31 | 1.73 | 1.35 |
+| `ninr-lp-hifi-soft` | 1.80 | 2.24 | 1.34 | 1.49 | 1.61 | 1.57 | 1.92 | 1.37 | 1.51 | 2.55 | 3.19 | 1.47 | 2.01 | 2.46 | 1.71 | 2.41 | 1.52 | 2.39 | 1.82 |
+| `ninr-lp-lofi-hard` | 1.93 | 2.39 | 1.37 | 1.54 | 1.66 | 1.61 | 2.12 | 1.40 | 1.57 | 2.77 | 3.41 | 1.55 | 2.15 | 2.67 | 1.93 | 2.60 | 1.54 | 2.59 | 1.94 |
+| `ninr-hq` | 1.86 | 2.08 | 1.39 | 1.54 | 1.57 | 1.64 | 1.99 | 1.41 | 1.58 | 2.21 | 2.57 | 1.67 | 2.02 | 2.17 | 1.80 | 2.17 | 1.53 | 2.14 | 1.81 |
 | `sdrmm-spectral` | 1.98 | 2.45 | 1.33 | 1.54 | 1.61 | 1.56 | 1.94 | 1.34 | 1.57 | 2.82 | 3.43 | 1.49 | 2.02 | 2.58 | 1.90 | 2.55 | 1.38 | 2.54 | 1.95 |
 | `sdrmm-spectral-0.5` | 1.81 | 2.27 | 1.34 | 1.47 | 1.62 | 1.61 | 1.80 | 1.36 | 1.49 | 2.64 | 3.31 | 1.47 | 2.04 | 2.61 | 1.84 | 2.50 | 1.43 | 2.49 | 1.84 |
 | `sdrmm-rnnoise` | 1.87 | 2.23 | 2.14 | 1.47 | 1.59 | 1.60 | 1.79 | 1.67 | 1.51 | 2.25 | 2.58 | 1.23 | 1.51 | 1.95 | 1.58 | 1.81 | 1.37 | 1.78 | 1.59 |
@@ -924,6 +1000,7 @@ over a chain's stages; model loading is excluded. Lower is faster; 1.0 = real ti
 | `sepformer-wham→sdrmm-spectral-0.5` | 1.33 | 1.38 | 1.23 | 1.20 | 1.25 | 1.21 | 1.32 | 1.20 | 1.22 | 1.23 | 1.27 | 1.11 | 1.13 | 1.12 | 1.11 | 1.10 | 1.13 | 1.14 | 1.10 |
 | `mmse-lsa→dpdfnet-dpdfnet4` | 1.80 | 2.02 | 1.26 | 1.61 | 1.33 | 1.46 | 1.95 | 1.44 | 1.60 | 1.92 | 2.20 | 1.29 | 1.47 | 1.64 | 1.75 | 1.52 | 1.56 | 1.61 | 1.29 |
 | `lms-notch→sdrmm-dpdfnet8_8khz` | 2.12 | 2.49 | 1.54 | 1.80 | 1.78 | 1.88 | 2.14 | 1.63 | 1.82 | 2.85 | 3.28 | 1.87 | 2.45 | 2.61 | 2.09 | 2.42 | 2.07 | 2.59 | 2.09 |
+| `ninr-lp-comm-narrow→sdrmm-dpdfnet8_8khz` | 2.12 | 2.38 | 1.15 | 1.60 | 1.44 | 1.61 | 2.32 | 1.20 | 1.64 | 2.33 | 2.75 | 1.69 | 2.04 | 2.09 | 1.63 | 1.89 | 1.71 | 2.01 | 1.74 |
 | `lavasr→dpdfnet-dpdfnet2` | 1.80 | 1.86 | 1.22 | 1.30 | 1.33 | 1.31 | 1.75 | 1.23 | 1.27 | 1.77 | 1.63 | 1.25 | 1.47 | 1.31 | 1.23 | 1.30 | 1.32 | 1.29 | 1.22 |
 | `lavasr→sdrmm-dpdfnet2` | 1.88 | 2.09 | 1.61 | 1.36 | 1.48 | 1.49 | 1.87 | 1.31 | 1.38 | 2.36 | 2.64 | 1.35 | 1.75 | 2.04 | 1.62 | 2.07 | 1.50 | 1.96 | 1.58 |
 | `lavasr→deepfilternet3` | 2.03 | 2.15 | 1.51 | 1.87 | 1.51 | 1.55 | 2.03 | 1.71 | 1.86 | 1.92 | 2.08 | 1.32 | 1.65 | 1.38 | 1.28 | 1.44 | 1.46 | 1.42 | 1.29 |
@@ -967,6 +1044,34 @@ change** in dB, median over clips. The corpus itself sits at −26 dBFS.
 | `dpdfnet8` | −40.5 / −60.4 | −8.6 / −59.0 | −4.8 / −59.1 | −11.2 / −61.0 |
 | `dpdfnet8_8khz` | −0.8 / −14.3 | −0.8 / −15.1 | −0.8 / −15.4 | −0.7 / −22.0 |
 
+## SDR# NINR vs SDR--
+
+AIRSPY's NINR (SDR# "next", June 2026) is closed source; the benchmark runs it through
+SDR#'s own `shark.dll` under a portable Wine (`tools/setup_ninr.sh`, then point
+`SORB_SDRSHARP` at your SDR# folder — the DLL is not redistributed here). Like SDR#, the
+audio is resampled to 2.4 × the profile bandwidth, fed as complex samples and resampled
+back. **LP** is the current engine (`noise_filter_lp_*`) with SDR#'s built-in profiles and
+its default 10 dB depth; **HQ** is the classic threshold/slope engine (`noise_filter_*`),
+which this SDR# build no longer exposes, so its settings (threshold −30 dB, slope 50,
+30 dB depth) are this benchmark's choice.
+
+| method | synthetic WER % | PESQ-NB | ESTOI | DNSMOS OVRL | real noise Δ dB | real speech Δ dB | real SNR gain dB |
+| :-- | --: | --: | --: | --: | --: | --: | --: |
+| `input` | 28.3 | 1.75 | 0.429 | 1.65 | 0.0 | 0.00 | +0.0 |
+| `sdrmm-spectral` | 30.7 | 2.00 | 0.418 | 2.17 | −4.4 | −0.57 | +2.9 |
+| `sdrmm-spectral-0.5` | 28.8 | 1.94 | 0.415 | 2.01 | −3.8 | −0.53 | +2.3 |
+| `sdrmm-rnnoise` | 40.8 | 1.76 | 0.360 | 1.96 | −4.9 | −1.10 | +2.0 |
+| `sdrmm-dpdfnet2` | 32.5 | 1.78 | 0.440 | 1.99 | −30.0 | −15.35 | +9.0 |
+| `sdrmm-dpdfnet8_8khz` | 25.2 | 2.36 | 0.549 | 2.66 | −6.7 | −1.09 | +4.4 |
+| `mmse-lsa` | 32.3 | 1.90 | 0.434 | 2.31 | −7.8 | −1.35 | +4.6 |
+| `ninr-lp-comm-narrow` | 33.2 | 1.61 | 0.410 | 2.27 | −13.3 | −0.84 | +10.9 |
+| `ninr-lp-comm-narrow-30dB` | 40.7 | 1.63 | 0.397 | 2.13 | −20.6 | −0.99 | +17.8 |
+| `ninr-lp-comm-wide` | 34.3 | 1.59 | 0.402 | 2.29 | −12.4 | −0.72 | +10.8 |
+| `ninr-lp-hifi-soft` | 28.3 | 1.91 | 0.466 | 1.85 | −3.2 | −0.20 | +2.2 |
+| `ninr-lp-lofi-hard` | 28.4 | 2.04 | 0.468 | 1.98 | −3.9 | −0.26 | +2.7 |
+| `ninr-hq` | 28.2 | 1.85 | 0.425 | 1.92 | −21.0 | −5.96 | +12.0 |
+| `ninr-lp-comm-narrow→sdrmm-dpdfnet8_8khz` | 32.9 | 1.86 | 0.487 | 2.40 | −22.8 | −1.44 | +20.2 |
+
 ## Do combinations help?
 
 Each chain against the best of its own stages run alone. A chain "helps" when it beats
@@ -988,6 +1093,7 @@ that stage on synthetic WER (PESQ-NB if ASR was not run).
 | `sepformer-wham→sdrmm-spectral-0.5` | `sdrmm-spectral-0.5` | 71.1 vs 28.8 | 1.20 vs 1.94 | +5.9 vs +2.3 dB | ❌ no gain |
 | `mmse-lsa→dpdfnet-dpdfnet4` | `mmse-lsa` | 72.8 vs 32.3 | 1.62 vs 1.90 | +21.6 vs +4.6 dB | ❌ no gain |
 | `lms-notch→sdrmm-dpdfnet8_8khz` | `sdrmm-dpdfnet8_8khz` | 28.8 vs 25.2 | 2.19 vs 2.36 | +3.1 vs +4.4 dB | ❌ no gain |
+| `ninr-lp-comm-narrow→sdrmm-dpdfnet8_8khz` | `sdrmm-dpdfnet8_8khz` | 32.9 vs 25.2 | 1.86 vs 2.36 | +20.2 vs +4.4 dB | ❌ no gain |
 | `lavasr→dpdfnet-dpdfnet2` | `dpdfnet-dpdfnet2` | 78.6 vs 82.2 | 1.41 vs 1.43 | +29.4 vs +24.3 dB | ✅ chain helps |
 | `lavasr→sdrmm-dpdfnet2` | `sdrmm-dpdfnet2` | 32.8 vs 32.5 | 1.75 vs 1.78 | +11.8 vs +9.0 dB | ❌ no gain |
 | `lavasr→deepfilternet3` | `deepfilternet3` | 57.4 vs 58.3 | 1.66 vs 1.63 | +29.3 vs +30.6 dB | ✅ chain helps |
@@ -1037,6 +1143,12 @@ Resemble-Enhance, AnyEnhance, …) — see the `engines/` notes to add them.
 | `noisereduce-stat` | dsp | noisereduce spectral gating, stationary | `dsp:noisereduce-stationary` | 0.0132 |
 | `lms-notch` | dsp | Adaptive line enhancer as auto-notch: 8 kHz, 2 ms decorrelation delay, slow NLMS | `dsp:lms-notch` | 0.0140 |
 | `noisereduce-nonstat` | dsp | noisereduce spectral gating, non-stationary | `dsp:noisereduce-nonstationary` | 0.0020 |
+| `ninr-lp-comm-narrow` | dsp | SDR# NINR (current engine), 'Comm (Narrow)' profile: VAD, 2048 FFT at 7.2 kHz, 10 dB depth | `ninr:lp:comm-narrow` | 0.0111 |
+| `ninr-lp-comm-narrow-30dB` | dsp | SDR# NINR, 'Comm (Narrow)' profile at 30 dB depth | `ninr:lp:comm-narrow:30` | 0.0111 |
+| `ninr-lp-comm-wide` | dsp | SDR# NINR, 'Comm (Wide)' profile: VAD, 4096 FFT at 12 kHz, 10 dB depth | `ninr:lp:comm-wide` | 0.0131 |
+| `ninr-lp-hifi-soft` | dsp | SDR# NINR, 'Hi-Fi Soft' (default) profile, 10 dB depth | `ninr:lp:hifi-soft` | 0.0222 |
+| `ninr-lp-lofi-hard` | dsp | SDR# NINR, 'Lo-Fi Hard' profile, 10 dB depth | `ninr:lp:lofi-hard` | 0.0130 |
+| `ninr-hq` | dsp | SDR# classic NINR engine (threshold −30 dB, slope 50, 30 dB depth) at 7.2 kHz | `ninr:hq` | 0.0321 |
 | `sdrmm-spectral` | sdrmm | SDR-- Spectral: MMSE-LSA + speech presence + minimum statistics, 20 dB floor | `sdrmm:spectral:1.0` | 0.0042 |
 | `sdrmm-spectral-0.5` | sdrmm | SDR-- Spectral at strength 0.5 (10 dB floor) | `sdrmm:spectral:0.5` | 0.0040 |
 | `sdrmm-rnnoise` | sdrmm | SDR-- RNNoise (nnnoiseless), 30 dB max attenuation | `sdrmm:rnnoise:1.0` | 0.0059 |
@@ -1094,6 +1206,7 @@ Resemble-Enhance, AnyEnhance, …) — see the `engines/` notes to add them.
 | `sepformer-wham→sdrmm-spectral-0.5` | chain | SepFormer WHAM! 8 kHz, then gentle SDR-- Spectral | `torch:sepformer:wham → sdrmm:spectral:0.5` | 0.1797 |
 | `mmse-lsa→dpdfnet-dpdfnet4` | chain | Classic MMSE-LSA, then official DPDFNet-4 | `dsp:mmse-lsa → dpdfnet:dpdfnet4` | 0.1350 |
 | `lms-notch→sdrmm-dpdfnet8_8khz` | chain | 2 ms-delay LMS notch, then SDR-- DPDFNet-8 8 kHz | `dsp:lms-notch → sdrmm:neural:dpdfnet8_8khz:1.0` | 0.1572 |
+| `ninr-lp-comm-narrow→sdrmm-dpdfnet8_8khz` | chain | SDR# NINR Comm (Narrow), then SDR-- DPDFNet-8 8 kHz | `ninr:lp:comm-narrow → sdrmm:neural:dpdfnet8_8khz:1.0` | 0.1543 |
 | `lavasr→dpdfnet-dpdfnet2` | chain | LavaSR bandwidth extension, then official DPDFNet-2 (16 kHz) | `audiosronnx:bwe:lavasr → dpdfnet:dpdfnet2` | 0.0828 |
 | `lavasr→sdrmm-dpdfnet2` | chain | LavaSR bandwidth extension, then SDR-- DPDFNet-2 | `audiosronnx:bwe:lavasr → sdrmm:neural:dpdfnet2:1.0` | 0.0745 |
 | `lavasr→deepfilternet3` | chain | LavaSR bandwidth extension, then DeepFilterNet3 | `audiosronnx:bwe:lavasr → deepfilternet:DeepFilterNet3` | 0.0382 |
@@ -1461,6 +1574,14 @@ Real recordings are downloaded from their original hosts and never redistributed
 uv sync                                            # harness + metrics (Python 3.12)
 (cd tools/sdrmm-denoise && cargo build --release)  # SDR-- engines (Rust 1.99, pinned sdrmm commit)
 uv run sorb all                                    # corpus, process, score, asr, speed, level, report
+```
+
+SDR# NINR needs your own SDR# "next" build and a portable Wine (nothing system-wide):
+
+```sh
+tools/setup_ninr.sh
+export SORB_SDRSHARP=/path/to/sdrsharp-x86-next   # folder with shark.dll
+uv run sorb process -m 'ninr*'
 ```
 
 Step by step (everything is cached; re-running only does what is missing):

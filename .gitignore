@@ -7,3 +7,6 @@ engines/*/.venv/
 __pycache__/
 *.pyc
 .DS_Store
+/tools/wine/
+/tools/winpython/
+shark.dll

@@ -32,7 +32,7 @@ SDRMM_BIN = ROOT / "tools" / "sdrmm-denoise" / "target" / "release" / "sdrmm-den
 SDRMM_MODELS = ROOT / "models" / "sdrmm"
 ENGINES = ROOT / "engines"
 MAX_LAG = int(0.25 * A.RATE)
-WORKER_THREADS = {"dpdfnet": 1, "onnx": 1, "rnnoise": 1, "deepfilternet": 2, "clearvoice": 2,
+WORKER_THREADS = {"ninr": 1, "dpdfnet": 1, "onnx": 1, "rnnoise": 1, "deepfilternet": 2, "clearvoice": 2,
                   "torch": 6, "audiosronnx": 6}
 
 
