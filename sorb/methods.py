@@ -60,12 +60,12 @@ METHODS: list[Method] = [
     m("lms-notch", "dsp", "Adaptive line enhancer as auto-notch: 8 kHz, 2 ms decorrelation delay, slow NLMS", ("dsp", "lms-notch")),
     m("noisereduce-nonstat", "dsp", "noisereduce spectral gating, non-stationary", ("dsp", "noisereduce-nonstationary")),
     # ---- SDR# NINR (AIRSPY, closed source): its own shark.dll under Wine, SDR# profiles
-    m("ninr-lp-comm-narrow", "dsp", "SDR# NINR (current engine), 'Comm (Narrow)' profile: VAD, 2048 FFT at 7.2 kHz, 10 dB depth", ("ninr", "lp:comm-narrow")),
-    m("ninr-lp-comm-narrow-30dB", "dsp", "SDR# NINR, 'Comm (Narrow)' profile at 30 dB depth", ("ninr", "lp:comm-narrow:30")),
-    m("ninr-lp-comm-wide", "dsp", "SDR# NINR, 'Comm (Wide)' profile: VAD, 4096 FFT at 12 kHz, 10 dB depth", ("ninr", "lp:comm-wide")),
-    m("ninr-lp-hifi-soft", "dsp", "SDR# NINR, 'Hi-Fi Soft' (default) profile, 10 dB depth", ("ninr", "lp:hifi-soft")),
-    m("ninr-lp-lofi-hard", "dsp", "SDR# NINR, 'Lo-Fi Hard' profile, 10 dB depth", ("ninr", "lp:lofi-hard")),
-    m("ninr-hq", "dsp", "SDR# classic NINR engine (threshold −30 dB, slope 50, 30 dB depth) at 7.2 kHz", ("ninr", "hq")),
+    m("sdr#-ninr-lp-comm-narrow", "dsp", "SDR# NINR LP, Comm (Narrow) profile", ("ninr", "lp:comm-narrow")),
+    m("sdr#-ninr-lp-comm-narrow-30dB", "dsp", "SDR# NINR LP, Comm (Narrow), 30 dB depth", ("ninr", "lp:comm-narrow:30")),
+    m("sdr#-ninr-lp-comm-wide", "dsp", "SDR# NINR LP, Comm (Wide) profile", ("ninr", "lp:comm-wide")),
+    m("sdr#-ninr-lp-hifi-soft", "dsp", "SDR# NINR LP, Hi-Fi Soft (default) profile", ("ninr", "lp:hifi-soft")),
+    m("sdr#-ninr-lp-lofi-hard", "dsp", "SDR# NINR LP, Lo-Fi Hard profile", ("ninr", "lp:lofi-hard")),
+    m("sdr#-ninr-hq", "dsp", "SDR# NINR HQ (older engine): threshold -30 dB, slope 50, depth 30 dB, 7.2 kHz", ("ninr", "hq")),
     # ---- SDR-- (real code via tools/sdrmm-denoise)
     m("sdrmm-spectral", "sdrmm", "SDR-- Spectral: MMSE-LSA + speech presence + minimum statistics, 20 dB floor", ("sdrmm", "spectral:1.0")),
     m("sdrmm-spectral-0.5", "sdrmm", "SDR-- Spectral at strength 0.5 (10 dB floor)", ("sdrmm", "spectral:0.5")),
@@ -123,7 +123,7 @@ METHODS: list[Method] = [
     m("sepformer-wham→sdrmm-spectral-0.5", "chain", "SepFormer WHAM! 8 kHz, then gentle SDR-- Spectral", ("torch", "sepformer:wham"), ("sdrmm", "spectral:0.5")),
     m("mmse-lsa→dpdfnet-dpdfnet4", "chain", "Classic MMSE-LSA, then official DPDFNet-4", ("dsp", "mmse-lsa"), ("dpdfnet", "dpdfnet4")),
     m("lms-notch→sdrmm-dpdfnet8_8khz", "chain", "2 ms-delay LMS notch, then SDR-- DPDFNet-8 8 kHz", ("dsp", "lms-notch"), ("sdrmm", "neural:dpdfnet8_8khz:1.0")),
-    m("ninr-lp-comm-narrow→sdrmm-dpdfnet8_8khz", "chain", "SDR# NINR Comm (Narrow), then SDR-- DPDFNet-8 8 kHz", ("ninr", "lp:comm-narrow"), ("sdrmm", "neural:dpdfnet8_8khz:1.0")),
+    m("sdr#-ninr-lp-comm-narrow→sdrmm-dpdfnet8_8khz", "chain", "SDR# NINR Comm (Narrow), then SDR-- DPDFNet-8 8 kHz", ("ninr", "lp:comm-narrow"), ("sdrmm", "neural:dpdfnet8_8khz:1.0")),
     # ---- does a wideband model stop deleting radio speech once the band is extended first?
     m("lavasr→dpdfnet-dpdfnet2", "chain", "LavaSR bandwidth extension, then official DPDFNet-2 (16 kHz)", ("audiosronnx", "bwe:lavasr"), ("dpdfnet", "dpdfnet2")),
     m("lavasr→sdrmm-dpdfnet2", "chain", "LavaSR bandwidth extension, then SDR-- DPDFNet-2", ("audiosronnx", "bwe:lavasr"), ("sdrmm", "neural:dpdfnet2:1.0")),

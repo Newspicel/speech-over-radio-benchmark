@@ -9,12 +9,12 @@ mmse-lsa,dsp,Ephraim-Malah MMSE log-spectral amplitude,dsp:mmse-lsa,0.03662
 noisereduce-stat,dsp,"noisereduce spectral gating, stationary",dsp:noisereduce-stationary,0.01319
 lms-notch,dsp,"Adaptive line enhancer as auto-notch: 8 kHz, 2 ms decorrelation delay, slow NLMS",dsp:lms-notch,0.01404
 noisereduce-nonstat,dsp,"noisereduce spectral gating, non-stationary",dsp:noisereduce-nonstationary,0.00196
-ninr-lp-comm-narrow,dsp,"SDR# NINR (current engine), 'Comm (Narrow)' profile: VAD, 2048 FFT at 7.2 kHz, 10 dB depth",ninr:lp:comm-narrow,0.01112
-ninr-lp-comm-narrow-30dB,dsp,"SDR# NINR, 'Comm (Narrow)' profile at 30 dB depth",ninr:lp:comm-narrow:30,0.01113
-ninr-lp-comm-wide,dsp,"SDR# NINR, 'Comm (Wide)' profile: VAD, 4096 FFT at 12 kHz, 10 dB depth",ninr:lp:comm-wide,0.01309
-ninr-lp-hifi-soft,dsp,"SDR# NINR, 'Hi-Fi Soft' (default) profile, 10 dB depth",ninr:lp:hifi-soft,0.02216
-ninr-lp-lofi-hard,dsp,"SDR# NINR, 'Lo-Fi Hard' profile, 10 dB depth",ninr:lp:lofi-hard,0.01303
-ninr-hq,dsp,"SDR# classic NINR engine (threshold −30 dB, slope 50, 30 dB depth) at 7.2 kHz",ninr:hq,0.03206
+sdr#-ninr-lp-comm-narrow,dsp,"SDR# NINR LP, Comm (Narrow) profile",ninr:lp:comm-narrow,0.01112
+sdr#-ninr-lp-comm-narrow-30dB,dsp,"SDR# NINR LP, Comm (Narrow), 30 dB depth",ninr:lp:comm-narrow:30,0.01113
+sdr#-ninr-lp-comm-wide,dsp,"SDR# NINR LP, Comm (Wide) profile",ninr:lp:comm-wide,0.01309
+sdr#-ninr-lp-hifi-soft,dsp,"SDR# NINR LP, Hi-Fi Soft (default) profile",ninr:lp:hifi-soft,0.02216
+sdr#-ninr-lp-lofi-hard,dsp,"SDR# NINR LP, Lo-Fi Hard profile",ninr:lp:lofi-hard,0.01303
+sdr#-ninr-hq,dsp,"SDR# NINR HQ (older engine): threshold -30 dB, slope 50, depth 30 dB, 7.2 kHz",ninr:hq,0.03206
 sdrmm-spectral,sdrmm,"SDR-- Spectral: MMSE-LSA + speech presence + minimum statistics, 20 dB floor",sdrmm:spectral:1.0,0.0042
 sdrmm-spectral-0.5,sdrmm,SDR-- Spectral at strength 0.5 (10 dB floor),sdrmm:spectral:0.5,0.00398
 sdrmm-rnnoise,sdrmm,"SDR-- RNNoise (nnnoiseless), 30 dB max attenuation",sdrmm:rnnoise:1.0,0.00592
@@ -72,7 +72,7 @@ dpdfnet2_8khz→lavasr,chain,"Official DPDFNet-2 8 kHz, then LavaSR bandwidth ex
 sepformer-wham→sdrmm-spectral-0.5,chain,"SepFormer WHAM! 8 kHz, then gentle SDR-- Spectral",torch:sepformer:wham → sdrmm:spectral:0.5,0.17968
 mmse-lsa→dpdfnet-dpdfnet4,chain,"Classic MMSE-LSA, then official DPDFNet-4",dsp:mmse-lsa → dpdfnet:dpdfnet4,0.13496
 lms-notch→sdrmm-dpdfnet8_8khz,chain,"2 ms-delay LMS notch, then SDR-- DPDFNet-8 8 kHz",dsp:lms-notch → sdrmm:neural:dpdfnet8_8khz:1.0,0.15719
-ninr-lp-comm-narrow→sdrmm-dpdfnet8_8khz,chain,"SDR# NINR Comm (Narrow), then SDR-- DPDFNet-8 8 kHz",ninr:lp:comm-narrow → sdrmm:neural:dpdfnet8_8khz:1.0,0.15427
+sdr#-ninr-lp-comm-narrow→sdrmm-dpdfnet8_8khz,chain,"SDR# NINR Comm (Narrow), then SDR-- DPDFNet-8 8 kHz",ninr:lp:comm-narrow → sdrmm:neural:dpdfnet8_8khz:1.0,0.15427
 lavasr→dpdfnet-dpdfnet2,chain,"LavaSR bandwidth extension, then official DPDFNet-2 (16 kHz)",audiosronnx:bwe:lavasr → dpdfnet:dpdfnet2,0.08279
 lavasr→sdrmm-dpdfnet2,chain,"LavaSR bandwidth extension, then SDR-- DPDFNet-2",audiosronnx:bwe:lavasr → sdrmm:neural:dpdfnet2:1.0,0.07445
 lavasr→deepfilternet3,chain,"LavaSR bandwidth extension, then DeepFilterNet3",audiosronnx:bwe:lavasr → deepfilternet:DeepFilterNet3,0.03818

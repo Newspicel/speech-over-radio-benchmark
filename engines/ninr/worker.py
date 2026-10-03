@@ -1,7 +1,7 @@
 """NINR from AIRSPY's SDR# (closed source), run through its own shark.dll under Wine.
 
-spec = lp:<profile>[:depth]  — current NINR engine with an SDR# profile, e.g. lp:comm-narrow
-     | hq                     — classic NINR engine (threshold/slope)
+spec = lp:<profile>[:depth]  current NINR engine with an SDR# profile, e.g. lp:comm-narrow
+     | hq                     older NINR engine (threshold/slope)
 
 Needs SORB_SDRSHARP=<SDR# folder containing shark.dll> (not redistributed here) and the
 portable Wine + 32-bit Python from tools/setup_ninr.sh. Like SDR#, audio is resampled to
