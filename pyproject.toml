@@ -2,6 +2,7 @@
 name = "sorb"
 version = "0.1.0"
 description = "Speech-over-radio benchmark: denoisers and restoration chains on NFM, AM and SSB speech"
+license = "ISC"
 requires-python = ">=3.12,<3.13"
 dependencies = [
     "numpy>=2.0",

@@ -704,4 +704,8 @@ uv run sorb process -m 'sdr#*'
 ```
 
 Audio is cached as 16 kHz FLAC in `data/`, models in `models/`.
+
+## License
+
+ISC. `tools/sdrmm-denoise` links SDR-- and is AGPL-3.0-or-later.
 """
