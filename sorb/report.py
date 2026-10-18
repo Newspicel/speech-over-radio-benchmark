@@ -679,6 +679,7 @@ FOOTER = """## Metrics
 
 ```sh
 uv sync
+tools/fetch_models.sh
 (cd tools/sdrmm-denoise && cargo build --release)
 uv run sorb all
 ```
@@ -703,7 +704,13 @@ export SORB_SDRSHARP=/path/to/sdrsharp-x86-next
 uv run sorb process -m 'sdr#*'
 ```
 
-Audio is cached as 16 kHz FLAC in `data/`, models in `models/`.
+The `sdrmm-*` and `sdr#-*` methods also need SDR--'s neural weights in
+`models/sdrmm/`. They are not downloadable any more, so copy them over or rebuild
+them from [sdrmm](https://github.com/Newspicel/sdrmm); `tools/fetch_models.sh`
+lists the names and hashes it expects.
+
+Audio is cached as 16 kHz FLAC in `data/`, models in `models/`. Both are
+regenerated on demand, so either can be deleted to reclaim the space.
 
 ## License
 
